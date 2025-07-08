@@ -9,7 +9,7 @@ export default function Section3(){
         <Element name="section3">
 
         
-         <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-10 py-12 md:py-16 gap-8 lg:gap-16">
+         <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-10 py-12 md:py-16 gap-12 lg:gap-24">
             <div className="flex-1 max-w-xl">
                 <h1 className='text-3xl md:text-4xl font-bold leading-tight mb-4'>Are you a <span className="text-[#8B8F92]">Landlord?</span></h1>
                 <p className="text-[#8B8F92] font-Poppins text-xl md:text-2xl mb-8">Here's what Landr Offers you</p>
@@ -28,7 +28,7 @@ export default function Section3(){
             </div>
         </section>
 
-        <section className="flex flex-col lg:flex-row-reverse items-center justify-between px-6 md:px-10 py-12 md:py-16 gap-8 lg:gap-16 bg-[#F2F4F3]">
+        <section className="flex flex-col lg:flex-row-reverse items-center justify-between px-6 md:px-10 py-12 md:py-16 gap-12 lg:gap-24 bg-[#F2F4F3]">
             <div className="flex-1 max-w-xl">
                 <h1 className='text-3xl md:text-4xl font-bold leading-tight mb-4'>Are you a <span className="text-[#8B8F92]">Tenant?</span></h1>
                 <p className="text-[#8B8F92] font-Poppins text-xl md:text-2xl mb-8">Here's what Landr Offers you</p>
@@ -47,7 +47,7 @@ export default function Section3(){
             </div>
         </section>
 
-          <section className="flex flex-col lg:flex-row-reverse items-center justify-between px-6 md:px-10 py-12 md:py-16 gap-8 lg:gap-16 ">
+          <section className="flex flex-col lg:flex-row-reverse items-center justify-between px-6 md:px-10 py-12 md:py-16 gap-12 lg:gap-24 ">
              <div className="flex-1 flex justify-center lg:justify-start">
                 <img src={Frame7} alt="Landr tenant dashboard illustration" className="h-auto w-full max-w-[500px] object-contain" />
             </div>
