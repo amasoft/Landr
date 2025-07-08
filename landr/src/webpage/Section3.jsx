@@ -1,10 +1,14 @@
 import Frame5 from '../assets/Frame5.png'
 import Frame6 from '../assets/Frame6.png'
 import Frame7 from '../assets/Frame7.png'
+import { Link, Element, scroller } from 'react-scroll';
 
 export default function Section3(){
     return (
         <>
+        <Element name="section3">
+
+        
          <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-10 py-12 md:py-16 gap-8 lg:gap-16">
             <div className="flex-1 max-w-xl">
                 <h1 className='text-3xl md:text-4xl font-bold leading-tight mb-4'>Are you a <span className="text-[#8B8F92]">Landlord?</span></h1>
@@ -62,6 +66,7 @@ export default function Section3(){
             </div>
            
         </section>
+        </Element>
         </>
     )
 }

@@ -1,4 +1,5 @@
 import Frame4 from '../assets/Frame4.png'
+import { Link, Element, scroller } from 'react-scroll';
 
 export default function Section2 (){
     const reasons = [
@@ -29,7 +30,8 @@ export default function Section2 (){
     ];
     
     return(
-        <section className="bg-[#F2F4F3] py-12 md:py-16">
+         <Element name="section2">
+              <section className="bg-[#F2F4F3] py-12 md:py-16">
             <div className="max-w-7xl mx-auto px-6 md:px-10">
                 <h1 className="text-3xl md:text-4xl font-bold mb-12 text-left">
                     Why <span className="text-[#8B8F92]">Landr?</span>
@@ -47,5 +49,7 @@ export default function Section2 (){
                 </div>
             </div>
         </section>
+         </Element>
+       
     )
 }

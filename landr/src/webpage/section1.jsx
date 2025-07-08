@@ -1,10 +1,12 @@
 import Frame1 from '../assets/Frame1.png'
 import Frame2 from '../assets/Frame2.png'
 import Frame3 from '../assets/Frame 3.png'
+import { Link, Element, scroller } from 'react-scroll';
 
 export default function Section1 (){
     return(
-        <section className='flex flex-col gap-12 px-6 md:px-10 py-8 md:py-12'>
+        <Element name="section1">
+              <section className='flex flex-col gap-12 px-6 md:px-10 py-8 md:py-12'>
             <div className='flex flex-col gap-6 max-w-4xl'>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">Find your next home without middlemen.</h1>
                 <p className="text-lg md:text-xl font-Poppins text-gray-500 leading-relaxed max-w-3xl">
@@ -28,5 +30,7 @@ export default function Section1 (){
                 </div>
             </div>
         </section>
+        </Element>
+        
     )
 }

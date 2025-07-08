@@ -1,7 +1,11 @@
 import Frame8 from '../assets/Frame8.png'
+import { Link, Element, scroller } from 'react-scroll';
 
 export default function Section4 (){
     return(
+        <Element name="section4">
+
+     
         <section className='px-6 md:px-10 py-12 md:py-16'>
             <div className='bg-[#F2F4F3] rounded-3xl p-8 md:p-12 flex flex-col lg:flex-row items-center gap-8 lg:gap-12'>
                 <div className='flex-1 max-w-2xl'>
@@ -24,5 +28,6 @@ export default function Section4 (){
                 </div>
             </div>
         </section>
+           </Element>
     )
 }
