@@ -14,6 +14,7 @@ import EnterpriseLogin from './Auth/EnterpriseLogin'
 //mainapp components
 import LandlordMainapp from './Mainapp/Landlords/LandlordMainapp'
 import TenantsMainapp from './Mainapp/Tenants/tenantsMainapp'
+import PropertyDetails from './Mainapp/Tenants/PropertyDetails';
 import { Routes, Route,BrowserRouter } from 'react-router-dom'
 import { ModalProvider } from './contexts/ModalContext';
 import './App.css'
@@ -45,6 +46,7 @@ function App() {
         <Route path="/EnterpriseLogin" element={<EnterpriseLogin />} />
         <Route path="/LandlordMainapp" element={<LandlordMainapp />} />
         <Route path="/TenantsMainapp" element={<TenantsMainapp />} />
+         <Route path="/property/:id" element={<PropertyDetails />} />
       </Routes>
        </ModalProvider>
     </BrowserRouter>

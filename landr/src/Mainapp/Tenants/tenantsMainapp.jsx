@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../../assets/Landr.png'
+import  {mockProperties} from './mockProperties.jsx'
+import { useNavigate } from 'react-router-dom';
 import { MapPin, User, CheckCircle, Search, Star, Heart } from 'lucide-react';
 
 const TenantsMainapp = () => {
@@ -9,106 +11,13 @@ const TenantsMainapp = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
  
-  
+  const navigate = useNavigate();
   // State for filters
   const [activeCategory, setActiveCategory] = useState('homes');
   const [sortBy, setSortBy] = useState('recency');
   
   // Mock data with enhanced properties
-  const mockProperties = [
-    {
-      id: 1,
-      type: 'Modern Bungalow',
-      price: 2000,
-      priceUnit: 'year',
-      location: 'Philip Adesanya Crescent, Lagos',
-      landlordName: 'Mr Dimeji Obioma',
-      landlordAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
-      documentationStatus: 'Verified',
-      rating: 4.8,
-      reviewCount: 24,
-      bedrooms: 3,
-      bathrooms: 2,
-      images: [
-        'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
-      ],
-      category: 'homes',
-      sponsored: true,
-      availableFrom: '2025-08-01'
-    },
-    {
-      id: 2,
-      type: 'Luxury Apartment',
-      price: 1800,
-      priceUnit: 'year',
-      location: 'Victoria Island, Lagos',
-      landlordName: 'Mrs Adunni Okafor',
-      landlordAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b86fb13c?w=100&h=100&fit=crop&crop=face',
-      documentationStatus: 'Verified',
-      rating: 4.9,
-      reviewCount: 18,
-      bedrooms: 2,
-      bathrooms: 2,
-      images: [
-        'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
-      ],
-      category: 'homes',
-      sponsored: false,
-      availableFrom: '2025-07-15'
-    },
-    {
-      id: 3,
-      type: 'Executive Duplex',
-      price: 3500,
-      priceUnit: 'year',
-      location: 'Lekki Phase 1, Lagos',
-      landlordName: 'Mr Tunde Adebayo',
-      landlordAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-      documentationStatus: 'Verified',
-      rating: 4.7,
-      reviewCount: 31,
-      bedrooms: 4,
-      bathrooms: 3,
-      images: [
-        'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
-      ],
-      category: 'homes',
-      sponsored: false,
-      availableFrom: '2025-09-01'
-    },
-    {
-      id: 4,
-      type: 'Cozy Studio',
-      price: 1200,
-      priceUnit: 'year',
-      location: 'Ikeja GRA, Lagos',
-      landlordName: 'Mrs Kemi Adeleke',
-      landlordAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
-      documentationStatus: 'Verified',
-      rating: 4.6,
-      reviewCount: 15,
-      bedrooms: 1,
-      bathrooms: 1,
-      images: [
-        'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-        'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
-      ],
-      category: 'homes',
-      sponsored: false,
-      availableFrom: '2025-08-15'
-    }
-  ];
+ 
 
   // Categories configuration
   const categories = [
@@ -256,7 +165,7 @@ const TenantsMainapp = () => {
             <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-gray-600" />
             </div>
-            <span className="text-sm font-medium">CJ</span>
+        
           </div>
         </div>
       </nav>
@@ -382,6 +291,9 @@ const TenantsMainapp = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       handleContactLandlord(property.id);
+ 
+                      navigate(`/property/${property.id}`);
+
                     }}
                     className="border-[#02D482] border-1 text-[#02D482] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#02D482] hover:text-amber-50 transition-colors"
                   >
