@@ -1,19 +1,52 @@
 import logo from '../assets/Landr.png'
+import { useNavigate } from 'react-router-dom';
+import { MoveLeft } from 'lucide-react';
 
 export default function TenantLogin (){
+    const navigate = useNavigate();
     return (
         <>
         <div>
+            
+                <button
+                    className="flex items-center absolute left-8 gap-2  text-gray-700 hover:text-[#02D482] transition-colors"
+                    onClick={() => window.history.back()}
+                >
+                    <MoveLeft className="w-10 h-10" />
+                
+                </button>
+                
             <img src={logo} alt="Landr Logo" className="mx-auto mt-8" />
             <h1 className="text-[20px] font-bold text-center mt-4">Create your Landr tenant account</h1>
-            <p className='text-center font-Poppins text-[14px]'>Fill in the information to get started</p>
+            <p className='text-center font-Poppins text-[14px] text-[#02D482]'>Fill in the information to get started</p>
+            
             <form className="flex flex-col gap-5 max-w-md mx-auto mt-8 bg-white p-8 rounded-3xl shadow-lg">
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="fullname" className="text-sm font-medium font-Poppins text-gray-700">Full name</label>
+                    <label htmlFor="firstname" className="text-sm font-medium font-Poppins text-gray-700">first name</label>
                     <input
-                        id="fullname"
+                        id="firstname"
                         type="text"
-                        placeholder="Enter your full name"
+                        placeholder="Enter your first name"
+                        className="border-gray-300 border rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#02D482] transition-all"
+                        required
+                    />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="middlename" className="text-sm font-medium font-Poppins text-gray-700">middle name(optional)</label>
+                    <input
+                        id="middlename"
+                        type="text"
+                        placeholder="Enter your middle name"
+                        className="border-gray-300 border rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#02D482] transition-all"
+                      
+                    />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="lastname" className="text-sm font-medium font-Poppins text-gray-700">Last name</label>
+                    <input
+                        id="lastname"
+                        type="text"
+                        placeholder="Enter your Last name"
                         className="border-gray-300 border rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#02D482] transition-all"
                         required
                     />
@@ -202,10 +235,11 @@ export default function TenantLogin (){
                     </label>
                 </div>
                 <button 
+                      onClick={() => navigate('/TenantLogin2')}
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins"
                       type='submit'
                     >
-                        Create an account
+                        Next
                     </button>
             </form>
         </div>
