@@ -48,7 +48,7 @@ export default function LanlordLogin2(){
                      <img src={logo} alt="Landr Logo" className="mx-auto mt-8" />
                 </div>
                 
-                <h1 className="text-[20px] font-bold text-center mt-4">Create your Landr tenant account</h1>
+                <h1 className="text-[20px] font-bold text-center mt-4">Create your Landr landlord account</h1>
                 <p className='text-center font-Poppins text-[14px] text-[#02D482]'>Fill in the information to get started</p>
                 
                 <div className="flex flex-col gap-5 max-w-md mx-auto mt-8 bg-white p-8 rounded-3xl shadow-lg">

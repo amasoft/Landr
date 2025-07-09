@@ -81,7 +81,7 @@ export default function LanlordLogin() {
                             id="phone"
                             type="tel"
                             placeholder="Enter your phone number"
-                            className="flex-1 border-gray-300 border rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#02D482] transition-all"
+                            className="flex-1 border-gray-300 border rounded px py-3 focus:outline-none focus:ring-2 focus:ring-[#02D482] transition-all"
                             required
                         />
                     </div>

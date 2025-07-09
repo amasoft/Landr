@@ -1,15 +1,19 @@
+// components/Navbar.js
 import logo from '../assets/Landr.png'
 import { Link } from 'react-scroll';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import React, { useState } from 'react';
+import { useModal } from '../contexts/ModalContext'; // Adjust path as needed
+import CreateAccountModal from './CreateAccountModal'; // Adjust path as needed
 
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const [showCreateAccount, setShowCreateAccount] = useState(false);
+    const { openModal } = useModal();
   
     const navigate = useNavigate();
+    
     function handleLoginOpen() {
         setShowLogin(true);
     }
@@ -18,9 +22,9 @@ export default function Navbar() {
         setShowLogin(false);
     }
 
-    // Helper to determine active link
-    const getLinkClass = (isActive) =>
-        `cursor-pointer ${isActive ? 'text-black font-semibold' : 'text-gray-500'}`;
+    const handleCreateAccountOpen = () => {
+        openModal(<CreateAccountModal />);
+    };
 
     return (
         <>
@@ -28,7 +32,7 @@ export default function Navbar() {
                 <img src={logo} className='w-20' alt="Logo" />
                 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-2">
+                <nav className="hidden md:flex items-center font-Poppins gap-2">
                     <Link
                         to="section1"
                         smooth={true}
@@ -91,7 +95,7 @@ export default function Navbar() {
                     </button>
                     <button
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins"
-                        onClick={() => setShowCreateAccount(true)}
+                        onClick={handleCreateAccountOpen}
                     >
                         Create an account
                     </button>
@@ -175,7 +179,7 @@ export default function Navbar() {
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins"
                         onClick={() => {
                             setMenuOpen(false);
-                            setShowCreateAccount(true);
+                            handleCreateAccountOpen();
                         }}
                     >
                         Create an account
@@ -190,52 +194,7 @@ export default function Navbar() {
                 </div>
             )}
 
-           
-            {showCreateAccount && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-700/45">
-                    <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm relative">
-                        <div className='flex items-center justify-between mb-6'>
-                            <img src={logo} className='w-15' alt="Logo" />
-                            <button
-                                onClick={() => setShowCreateAccount(false)}
-                                aria-label="Close"
-                            >
-                                <X className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-colors" />
-                            </button>
-                        </div>
-                        <h2 className="font-bold mb-4 text-left">Select Your Niche</h2>
-                        <div className="flex flex-col gap-4">
-                            <button
-                                className="rounded-[100px] border border-black py-3 px-6 text-[13px] font-Poppins hover:bg-[#02D482] hover:text-white transition-colors"
-                                onClick={() => {
-                                    setShowCreateAccount(false);
-                                    navigate('/LanlordLogin');
-                                }}
-                            >
-                                Landlord
-                            </button>
-                            <button
-                                className="rounded-[100px] border border-black py-3 px-6 text-[13px] font-Poppins hover:bg-[#02D482] hover:text-white transition-colors"
-                                onClick={() => {
-                                    setShowCreateAccount(false);
-                                    navigate('/TenatLogin');
-                                }}
-                            >
-                                Tenant
-                            </button>
-                            <button
-                                className="rounded-[100px] border border-black py-3 px-6 text-[13px] font-Poppins hover:bg-[#02D482] hover:text-white transition-colors"
-                                onClick={() => {
-                                    setShowCreateAccount(false);
-                                    navigate('/EnterpriseLogin');
-                                }}
-                            >
-                                Enterprise
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Login Modal - You can also convert this to use context later */}
             {showLogin && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-700/45">
                     <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm relative">

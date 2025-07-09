@@ -2,8 +2,14 @@ import Frame5 from '../assets/Frame5.png'
 import Frame6 from '../assets/Frame6.png'
 import Frame7 from '../assets/Frame7.png'
 import { Link, Element, scroller } from 'react-scroll';
+import { useModal } from '../contexts/ModalContext'; // Adjust path as needed
+import CreateAccountModal from './CreateAccountModal';
 
 export default function Section3(){
+     const { openModal } = useModal();
+         const handleCreateAccountOpen = () => {
+                openModal(<CreateAccountModal />);
+            };
     return (
         <>
         <Element name="section3">
@@ -19,7 +25,12 @@ export default function Section3(){
                     <li>Ease of doing business from the comfort of your homes.</li>
                     <li>Control of your estate & finance & tenancy monitoring.</li>
                 </ul>
-                <button className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
+                <button 
+                  onClick={() => {
+                  
+                   handleCreateAccountOpen();
+                                       }}
+                className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
                     Get started
                 </button>
             </div>
@@ -38,7 +49,12 @@ export default function Section3(){
                     <li>Zero agency/hidden fees.</li>
                     <li>A regulated agreement & dispute management channel.</li>
                 </ul>
-                <button className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
+                <button
+                  onClick={() => {
+                  
+                   handleCreateAccountOpen();
+                                       }}
+                className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
                     Get started
                 </button>
             </div>
@@ -60,7 +76,12 @@ export default function Section3(){
                     <li>Zero agency/hidden fees.</li>
                     <li>A regulated agreement & dispute management channel.</li>
                 </ul>
-                <button className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
+                <button 
+                  onClick={() => {
+                  
+                   handleCreateAccountOpen();
+                                       }}
+                className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
                     Get started
                 </button>
             </div>

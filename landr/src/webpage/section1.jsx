@@ -1,12 +1,19 @@
 import Frame1 from '../assets/Frame1.png'
 import Frame2 from '../assets/Frame2.png'
 import Frame3 from '../assets/Frame 3.png'
+import { useNavigate } from 'react-router-dom';
 import { Link, Element, scroller } from 'react-scroll';
+import { useModal } from '../contexts/ModalContext'; // Adjust path as needed
+import CreateAccountModal from './CreateAccountModal';
 
 
 export default function Section1 (){
+      const { openModal } = useModal();
+     const handleCreateAccountOpen = () => {
+            openModal(<CreateAccountModal />);
+        };
   
-
+    const navigate = useNavigate();
     return(
         <Element name="section1">
             <>
@@ -18,7 +25,12 @@ export default function Section1 (){
                         No agents. No fees. Just honest housing.
                     </p>
                     <div className="flex gap-4">
-                        <button className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors w-fit" style={{ width: '180px' }}>
+                        <button
+                       onClick={() => {
+                  
+                   handleCreateAccountOpen();
+                                       }}
+                            className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors w-fit" style={{ width: '180px' }}>
                             Get started
                         </button>
                      
