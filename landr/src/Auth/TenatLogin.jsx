@@ -217,7 +217,7 @@ export default function TenantLogin (){
                     <input
                         id="terms"
                         type="checkbox"
-                        className="h-4 w-4 border-gray-300 rounded focus:ring-[#02D482] transition-all"
+                        className="h-4 w-4 border-gray-300 text-[#02D482] rounded focus:ring-[#02D482] transition-all"
                         required
                     />
                     <label htmlFor="terms" className="text-sm font-Poppins text-gray-700">

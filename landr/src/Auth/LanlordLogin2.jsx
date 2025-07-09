@@ -1,10 +1,13 @@
 import logo from '../assets/Landr.png'
 import { useState } from 'react';
 import { MoveLeft, Camera, Upload } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function LanlordLogin2(){
     const [selectedFile, setSelectedFile] = useState(null);
     const [dragActive, setDragActive] = useState(false);
+
+    const navigate = useNavigate()
 
     const handleFileSelect = (file) => {
         if (file && (file.type.startsWith('image/') || file.type === 'application/pdf')) {
@@ -104,7 +107,7 @@ export default function LanlordLogin2(){
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins hover:bg-green-600 transition-colors"
                         onClick={(e) => {
                             e.preventDefault();
-                          
+                            navigate('/tenantsMainapp')
                             console.log('Form submitted with file:', selectedFile);
                         }}
                     >
