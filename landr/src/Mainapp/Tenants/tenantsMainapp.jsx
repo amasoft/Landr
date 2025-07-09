@@ -263,8 +263,8 @@ const TenantsMainapp = () => {
 
       <div className="max-w-7xl mx-auto px-8 py-8">
         {/* Categories */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-6">Find your perfect home</h1>
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-2xl font-semibold  font-Poppins text-gray-900 mb-6">Categories</h1>
           <div className="flex flex-wrap gap-3">
             {categories.map((category) => (
               <button
