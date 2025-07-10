@@ -33,10 +33,10 @@ const PropertyDetails = () => {
       <nav className='flex justify-between items-center bg-white px-8 py-4 shadow-sm border-b sticky top-0 z-50'>
         <button 
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-700 hover:text-[#02D482] transition-colors"
+          className="flex items-center gap-2 font-Poppins text-gray-700 hover:text-[#02D482] transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
+          <span >Back</span>
         </button>
         <img src={logo} className='w-20' alt="Logo" />
       
@@ -95,7 +95,7 @@ const PropertyDetails = () => {
             {/* Overview */}
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-4">About this property</h2>
-              <p className="text-gray-700">{property.description}</p>
+              <p className="text-gray-700 font-Poppins">{property.description}</p>
             </div>
 
             {/* Amenities */}
@@ -107,7 +107,7 @@ const PropertyDetails = () => {
                     <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
                       <CheckCircle className="w-3 h-3 text-[#02D482]" />
                     </div>
-                    <span className="text-gray-700">{amenity}</span>
+                    <span className="text-gray-700 font-Poppins">{amenity}</span>
                   </div>
                 ))}
               </div>

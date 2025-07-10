@@ -4,13 +4,12 @@ import { Link } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import React, { useState } from 'react';
-import { useModal } from '../contexts/ModalContext'; // Adjust path as needed
-import CreateAccountModal from './CreateAccountModal'; // Adjust path as needed
+
 
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const { openModal } = useModal();
+
   
     const navigate = useNavigate();
     
@@ -22,9 +21,7 @@ export default function Navbar() {
         setShowLogin(false);
     }
 
-    const handleCreateAccountOpen = () => {
-        openModal(<CreateAccountModal />);
-    };
+   ;
 
     return (
         <>
@@ -95,7 +92,9 @@ export default function Navbar() {
                     </button>
                     <button
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins"
-                        onClick={handleCreateAccountOpen}
+                        onClick={() => {
+                            navigate('/signup');
+                        }}
                     >
                         Create an account
                     </button>
@@ -179,7 +178,7 @@ export default function Navbar() {
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins"
                         onClick={() => {
                             setMenuOpen(false);
-                            handleCreateAccountOpen();
+                         navigate('/signup')
                         }}
                     >
                         Create an account

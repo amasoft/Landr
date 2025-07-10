@@ -1,15 +1,12 @@
 import Frame5 from '../assets/Frame5.png'
 import Frame6 from '../assets/Frame6.png'
 import Frame7 from '../assets/Frame7.png'
+import { useNavigate } from 'react-router-dom';
 import { Link, Element, scroller } from 'react-scroll';
-import { useModal } from '../contexts/ModalContext'; // Adjust path as needed
-import CreateAccountModal from './CreateAccountModal';
+
 
 export default function Section3(){
-     const { openModal } = useModal();
-         const handleCreateAccountOpen = () => {
-                openModal(<CreateAccountModal />);
-            };
+   const navigate = useNavigate();
     return (
         <>
         <Element name="section3">
@@ -28,7 +25,7 @@ export default function Section3(){
                 <button 
                   onClick={() => {
                   
-                   handleCreateAccountOpen();
+                  navigate('/signup')
                                        }}
                 className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
                     Get started
@@ -51,8 +48,8 @@ export default function Section3(){
                 </ul>
                 <button
                   onClick={() => {
+                  navigate('/signup')
                   
-                   handleCreateAccountOpen();
                                        }}
                 className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
                     Get started
@@ -79,7 +76,7 @@ export default function Section3(){
                 <button 
                   onClick={() => {
                   
-                   handleCreateAccountOpen();
+                         navigate('/signup')
                                        }}
                 className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
                     Get started

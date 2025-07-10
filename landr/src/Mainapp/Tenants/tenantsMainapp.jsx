@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import logo from '../../assets/Landr.png'
 import  {mockProperties} from './mockProperties.jsx'
 import { useNavigate } from 'react-router-dom';
-import { MapPin, User, CheckCircle, Search, Star, Heart } from 'lucide-react';
+import { MapPin, User, CheckCircle, Search, Star, Heart,X } from 'lucide-react';
 
 const TenantsMainapp = () => {
   // State for properties data
@@ -16,8 +16,8 @@ const TenantsMainapp = () => {
   const [activeCategory, setActiveCategory] = useState('homes');
   const [sortBy, setSortBy] = useState('recency');
   
-  // Mock data with enhanced properties
- 
+  // Modal state - shows on component mount for testing
+  const [showSetupModal, setShowSetupModal] = useState(true);
 
   // Categories configuration
   const categories = [
@@ -73,16 +73,17 @@ const TenantsMainapp = () => {
     setSearchQuery(e.target.value);
   };
 
-  const toggleLike = (propertyId) => {
-    setLikedProperties(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(propertyId)) {
-        newSet.delete(propertyId);
-      } else {
-        newSet.add(propertyId);
-      }
-      return newSet;
-    });
+  const handleCloseModal = () => {
+    setShowSetupModal(false);
+    // TODO: Send API request to backend to mark modal as dismissed
+    // Example: await api.updateUserPreferences({ setupModalDismissed: true });
+  };
+
+  const handleGoToProfile = () => {
+    setShowSetupModal(false);
+    navigate('/TenantsMainapp/profile');
+    // TODO: Send API request to backend to mark modal as dismissed
+    // Example: await api.updateUserPreferences({ setupModalDismissed: true });
   };
 
   // Filter properties based on search query
@@ -95,6 +96,40 @@ const TenantsMainapp = () => {
   if (loading) {
     return (
       <div className="bg-[#F9F9F9] min-h-screen">
+         {showSetupModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
+            <button 
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Complete your account setup</h2>
+              <p className="text-gray-600">
+                To view homes & send offers, you need to complete your account setup in your profile
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleGoToProfile}
+                className="bg-[#02D482] text-white py-3 rounded-lg font-medium hover:bg-green-600 transition-colors"
+              >
+                Go to Profile
+              </button>
+              <button
+                onClick={handleCloseModal}
+                className="border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+              >
+                Maybe Later
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
         {/* Navbar */}
         <nav className='flex justify-between items-center bg-white px-8 py-4 shadow-sm border-b'>
           <div className="h-10 w-20 bg-gray-300 rounded animate-pulse"></div>
@@ -146,8 +181,44 @@ const TenantsMainapp = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      {/* Modal */}
+      {showSetupModal && (
+        <div className="fixed inset-0 bg-gray-600/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
+            <div className="flex items-center justify-between mb-6">
+
+              <img src={logo} className='w-15 mb-4' alt="Logo" />
+                <button 
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            </div>
+          
+            
+            <div className="text-left mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Complete your account setup</h2>
+              <p className="text-[#02D482] font-Poppins">
+               To view homes & send offers, you need to complete your account setup in your profile 
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleGoToProfile}
+                className="bg-[#02D482]  text-white py-3 rounded-full font-Poppins font-medium hover:bg-green-600 transition-colors"
+              >
+                Go to Profile
+              </button>
+           
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Navbar */}
-      <nav className='flex justify-between items-center bg-white px-8 py-4 shadow-sm border-b sticky top-0 z-50'>
+      <nav className='flex justify-between items-center bg-white px-8 py-4 shadow-sm border-b '>
         <div className="flex items-center">
          <img src={logo} className='w-20' alt="Logo" />
         </div>
@@ -172,7 +243,7 @@ const TenantsMainapp = () => {
 
       <div className="max-w-7xl mx-auto px-8 py-8">
         {/* Categories */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex md:flex  lg:flex  justify-between">
           <h1 className="text-2xl font-semibold  font-Poppins text-gray-900 mb-6">Categories</h1>
           <div className="flex flex-wrap gap-3">
             {categories.map((category) => (

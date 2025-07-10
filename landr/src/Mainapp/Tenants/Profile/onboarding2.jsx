@@ -1,11 +1,17 @@
-import logo from '../assets/Landr.png'
+
 import { useState } from 'react';
 import { MoveLeft, Camera, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-export default function LanlordLogin2(){
+export default function Onboarding2(){
     const [selectedFile, setSelectedFile] = useState(null);
     const [dragActive, setDragActive] = useState(false);
+     const [showSetupModal, setShowSetupModal] = useState(false);
+     
+     const handleCompleteSetup = () => {
+        setShowSetupModal(true);
+         console.log('Form submitted with file:', selectedFile)
+    };
 
     const navigate = useNavigate()
 
@@ -40,6 +46,33 @@ export default function LanlordLogin2(){
     return(
         <>
             <div>
+                {showSetupModal && (
+                        <div className="fixed inset-0 bg-gray-600/70 flex items-center justify-center z-50 p-4">
+                          <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
+                          
+                            
+                            <div className="text-left mb-6">
+                              <h2 className="text-xl font-semibold text-gray-900 mb-2">Congratulations</h2>
+                              <p className="text-[#02D482] font-Poppins">
+                              Your account has been updated succesfully! Go ahead and secure your new home. 
+                              </p>
+                            </div>
+                            
+                            <div className="flex flex-col gap-3">
+                              <button
+                                onClick={() => {
+                                    setShowSetupModal(false);
+                                    navigate('/tenantsMainapp/profile');
+                                }}
+                                className="bg-[#02D482]  text-white py-3 rounded-full font-Poppins font-medium hover:bg-green-600 transition-colors"
+                              >
+                                Go to Profile
+                              </button>
+                           
+                            </div>
+                          </div>
+                        </div>
+                      )}
                 <button
                     className="flex items-center absolute left-8 gap-2 text-gray-700 hover:text-[#02D482] transition-colors"
                     onClick={() => window.history.back()}
@@ -48,11 +81,11 @@ export default function LanlordLogin2(){
                 </button>
                 
                 <div className="flex justify-center mt-8">
-                     <img src={logo} alt="Landr Logo" className="mx-auto mt-8" />
+                    
                 </div>
                 
-                <h1 className="text-[20px] font-bold text-center mt-4">Create your Landr landlord account</h1>
-                <p className='text-center font-Poppins text-[14px] text-[#02D482]'>Fill in the information to get started</p>
+                <h1 className="text-[20px] font-bold text-center mt-4">Create your Landr tenant account</h1>
+                <p className='text-center font-Poppins text-[14px] text-[#02D482]'>Fill in the information to complete your profile</p>
                 
                 <div className="flex flex-col gap-5 max-w-md mx-auto mt-8 bg-white p-8 rounded-3xl shadow-lg">
                     <div className="flex flex-col gap-1">
@@ -107,8 +140,7 @@ export default function LanlordLogin2(){
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins hover:bg-green-600 transition-colors"
                         onClick={(e) => {
                             e.preventDefault();
-                            navigate('/tenantsMainapp')
-                            console.log('Form submitted with file:', selectedFile);
+                            handleCompleteSetup();
                         }}
                     >
                         Create Account

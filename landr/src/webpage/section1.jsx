@@ -3,15 +3,10 @@ import Frame2 from '../assets/Frame2.png'
 import Frame3 from '../assets/Frame 3.png'
 import { useNavigate } from 'react-router-dom';
 import { Link, Element, scroller } from 'react-scroll';
-import { useModal } from '../contexts/ModalContext'; // Adjust path as needed
-import CreateAccountModal from './CreateAccountModal';
 
 
 export default function Section1 (){
-      const { openModal } = useModal();
-     const handleCreateAccountOpen = () => {
-            openModal(<CreateAccountModal />);
-        };
+   ;
   
     const navigate = useNavigate();
     return(
@@ -28,7 +23,7 @@ export default function Section1 (){
                         <button
                        onClick={() => {
                   
-                   handleCreateAccountOpen();
+              navigate('/signup')
                                        }}
                             className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors w-fit" style={{ width: '180px' }}>
                             Get started

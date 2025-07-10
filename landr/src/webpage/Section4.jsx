@@ -1,13 +1,9 @@
 import Frame8 from '../assets/Frame8.png'
 import { Link, Element, scroller } from 'react-scroll';
-import { useModal } from '../contexts/ModalContext'; // Adjust path as needed
-import CreateAccountModal from './CreateAccountModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function Section4 (){
-      const { openModal } = useModal();
-     const handleCreateAccountOpen = () => {
-            openModal(<CreateAccountModal />);
-        };
+    const navigate = useNavigate();
   
     return(
         <Element name="section4">
@@ -27,7 +23,7 @@ export default function Section4 (){
                     </p>
                     <button
                       onClick={() => {
-                   handleCreateAccountOpen();
+                  navigate('/signup')
                                        }}
                     className="rounded-[100px] bg-[#02D482] text-white px-6 py-3 text-sm font-Poppins hover:bg-[#02C478] transition-colors" style={{ width: '180px' }}>
                         Get started
