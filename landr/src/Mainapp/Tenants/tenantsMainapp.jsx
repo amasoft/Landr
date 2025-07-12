@@ -1,8 +1,100 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../../assets/Landr.png'
-import  {mockProperties} from './mockProperties.jsx'
+import logo from '../../assets/Landr.png';
+import { mockProperties } from './mockProperties.jsx';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, User, CheckCircle, Search, Star, Heart,X } from 'lucide-react';
+import { MapPin, User, CheckCircle, Search, Star, Heart, X } from 'lucide-react';
+
+// Property Card Component moved to the top
+const PropertyCard = ({ property, onContact, onMoreInfo }) => {
+  return (
+    <div className="group cursor-pointer">
+      {/* Image Container */}
+      <div className="relative h-64 bg-gray-200 rounded-xl overflow-hidden mb-3">
+        <img
+          src={property.images[0]}
+          alt={`${property.type} in ${property.location}`}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        
+        {/* Sponsored Badge */}
+        {property.sponsored && (
+          <div className="absolute top-3 left-3 bg-[#02D482] text-white px-3 py-1 rounded-full text-xs font-medium">
+            Sponsored
+          </div>
+        )}
+
+        {/* Verification Badge */}
+        {property.documentationStatus === 'Verified' && (
+          <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1">
+            <CheckCircle className="w-3 h-3 text-[#02D482]" />
+            <span className="text-xs text-gray-700">Verified</span>
+          </div>
+        )}
+      </div>
+
+      {/* Property Details */}
+      <div className="space-y-2">
+        {/* Location and Rating */}
+        <div className="flex justify-between items-start">
+          <div className="flex items-center gap-1 text-sm text-gray-600">
+            <MapPin className="w-4 h-4" />
+            <span className="truncate">{property.location}</span>
+          </div>
+        </div>
+
+        {/* Property Type */}
+        <h3 className="font-medium font-Poppins text-gray-900 group-hover:text-[#02D482] transition-colors">
+          {property.type}
+        </h3>
+
+        {/* Landlord Info */}
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <img 
+            src={property.landlordAvatar} 
+            alt={property.landlordName}
+            className="w-5 h-5 rounded-full object-cover"
+          />
+          <span>Hosted by {property.landlordName}</span>
+        </div>
+
+        {/* Property Features */}
+        <div className="flex items-center gap-3 text-sm text-gray-600">
+          <span>{property.bedrooms} bed{property.bedrooms > 1 ? 's' : ''}</span>
+          <span>•</span>
+          <span>{property.bathrooms} bath{property.bathrooms > 1 ? 's' : ''}</span>
+        </div>
+
+        {/* Price */}
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-lg font-semibold text-gray-900">
+              ${property.price.toLocaleString()}
+            </span>
+            <span className="text-sm text-gray-600">/{property.priceUnit}</span>
+          </div>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onMoreInfo();
+            }}
+            className="border-[#02D482] border-1 text-[#02D482] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#02D482] hover:text-amber-50 transition-colors"
+          >
+            More info
+          </button>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onContact(property.id);
+            }}
+            className="bg-[#02D482] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors"
+          >
+            Contact
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const TenantsMainapp = () => {
   // State for properties data
@@ -10,14 +102,14 @@ const TenantsMainapp = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
- 
   const navigate = useNavigate();
+
   // State for filters
   const [activeCategory, setActiveCategory] = useState('homes');
   const [sortBy, setSortBy] = useState('recency');
   
   // Modal state - shows on component mount for testing
-  const [showSetupModal, setShowSetupModal] = useState(true);
+  const [showSetupModal, setShowSetupModal] = useState(false);
 
   // Categories configuration
   const categories = [
@@ -33,8 +125,24 @@ const TenantsMainapp = () => {
     { value: 'recency', label: 'Recency' },
     { value: 'popularity', label: 'Popularity' },
     { value: 'price', label: 'Price' }
+
   ];
 
+    const handleContactLandlord = async (propertyId) => {
+    try {
+      console.log(`Contacting landlord for property ${propertyId}`);
+    } catch (err) {
+      console.error('Failed to contact landlord:', err);
+    }
+  };
+
+   const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+ const handleCloseModal = () =>{
+      setShowSetupModal(false)
+ }
   // Simulate API call
   useEffect(() => {
     const fetchProperties = async () => {
@@ -52,40 +160,6 @@ const TenantsMainapp = () => {
     fetchProperties();
   }, [activeCategory, sortBy]);
 
-  // Handler functions
-  const handleCategoryChange = (category) => {
-    setActiveCategory(category);
-  };
-
-  const handleSortChange = (sortValue) => {
-    setSortBy(sortValue);
-  };
-
-  const handleContactLandlord = async (propertyId) => {
-    try {
-      console.log(`Contacting landlord for property ${propertyId}`);
-    } catch (err) {
-      console.error('Failed to contact landlord:', err);
-    }
-  };
-
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleCloseModal = () => {
-    setShowSetupModal(false);
-    // TODO: Send API request to backend to mark modal as dismissed
-    // Example: await api.updateUserPreferences({ setupModalDismissed: true });
-  };
-
-  const handleGoToProfile = () => {
-    setShowSetupModal(false);
-    navigate('/TenantsMainapp/profile');
-    // TODO: Send API request to backend to mark modal as dismissed
-    // Example: await api.updateUserPreferences({ setupModalDismissed: true });
-  };
-
   // Filter properties based on search query
   const filteredProperties = properties.filter(property =>
     property.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -93,91 +167,10 @@ const TenantsMainapp = () => {
     property.landlordName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) {
-    return (
-      <div className="bg-[#F9F9F9] min-h-screen">
-         {showSetupModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
-            <button 
-              onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            
-            <div className="text-center mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Complete your account setup</h2>
-              <p className="text-gray-600">
-                To view homes & send offers, you need to complete your account setup in your profile
-              </p>
-            </div>
-            
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={handleGoToProfile}
-                className="bg-[#02D482] text-white py-3 rounded-lg font-medium hover:bg-green-600 transition-colors"
-              >
-                Go to Profile
-              </button>
-              <button
-                onClick={handleCloseModal}
-                className="border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
-              >
-                Maybe Later
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-        {/* Navbar */}
-        <nav className='flex justify-between items-center bg-white px-8 py-4 shadow-sm border-b'>
-          <div className="h-10 w-20 bg-gray-300 rounded animate-pulse"></div>
-          <div className='flex items-center gap-4'>
-            <div className="h-6 w-8 bg-gray-300 rounded animate-pulse"></div>
-            <div className="h-10 w-64 bg-gray-300 rounded-full animate-pulse"></div>
-            <div className="h-6 w-6 bg-gray-300 rounded animate-pulse"></div>
-          </div>
-        </nav>
-        
-        <div className="p-8 max-w-7xl mx-auto">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-300 rounded w-48 mb-6"></div>
-            <div className="flex space-x-4 mb-8">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="h-10 bg-gray-300 rounded-full w-20"></div>
-              ))}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                <div key={i} className="space-y-4">
-                  <div className="h-64 bg-gray-300 rounded-xl"></div>
-                  <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const sponsoredProperties = filteredProperties.filter(property => property.sponsored);
+  const regularProperties = filteredProperties.filter(property => !property.sponsored);
 
-  if (error) {
-    return (
-      <div className="bg-[#F9F9F9] min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-red-500 text-xl mb-4">{error}</div>
-          <button 
-            onClick={() => window.location.reload()}
-            className="bg-[#02D482] text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // ... rest of your component code remains the same ...
 
   return (
     <div className="bg-white min-h-screen">
@@ -186,16 +179,14 @@ const TenantsMainapp = () => {
         <div className="fixed inset-0 bg-gray-600/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
             <div className="flex items-center justify-between mb-6">
-
               <img src={logo} className='w-15 mb-4' alt="Logo" />
-                <button 
-              onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-            >
-              <X className="w-5 h-5" />
-            </button>
+              <button 
+                onClick={handleCloseModal}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-          
             
             <div className="text-left mb-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Complete your account setup</h2>
@@ -206,21 +197,22 @@ const TenantsMainapp = () => {
             
             <div className="flex flex-col gap-3">
               <button
-                onClick={handleGoToProfile}
-                className="bg-[#02D482]  text-white py-3 rounded-full font-Poppins font-medium hover:bg-green-600 transition-colors"
+                onClick={ () =>{
+                  navigate("/TenantsMainapp/profile")
+                }}
+                className="bg-[#02D482] text-white py-3 rounded-full font-Poppins font-medium hover:bg-green-600 transition-colors"
               >
                 Go to Profile
               </button>
-           
             </div>
           </div>
         </div>
       )}
 
       {/* Navbar */}
-      <nav className='flex justify-between items-center bg-white px-8 py-4 shadow-sm border-b '>
+      <nav className='flex justify-between items-center bg-white px-8 py-4 shadow-sm border-b'>
         <div className="flex items-center">
-         <img src={logo} className='w-20' alt="Logo" />
+          <img src={logo} className='w-20' alt="Logo" />
         </div>
         <div className='flex items-center gap-6'>
           <div className="relative">
@@ -236,15 +228,14 @@ const TenantsMainapp = () => {
             <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-gray-600" />
             </div>
-        
           </div>
         </div>
       </nav>
 
       <div className="max-w-7xl mx-auto px-8 py-8">
         {/* Categories */}
-        <div className="mb-8 flex md:flex  lg:flex  justify-between">
-          <h1 className="text-2xl font-semibold  font-Poppins text-gray-900 mb-6">Categories</h1>
+        <div className="mb-8 flex md:flex lg:flex justify-between">
+          <h1 className="text-2xl font-semibold font-Poppins text-gray-900 mb-6">Categories</h1>
           <div className="flex flex-wrap gap-3">
             {categories.map((category) => (
               <button
@@ -288,101 +279,42 @@ const TenantsMainapp = () => {
           </div>
         </div>
 
-        {/* Properties Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProperties.map((property) => (
-            <div key={property.id} className="group cursor-pointer">
-              {/* Image Container */}
-              <div className="relative h-64 bg-gray-200 rounded-xl overflow-hidden mb-3">
-                <img
-                  src={property.images[0]}
-                  alt={`${property.type} in ${property.location}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        {/* Sponsored Properties */}
+        {sponsoredProperties.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-xl font-semibold mb-6 text-gray-900">Featured Properties</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {sponsoredProperties.map((property) => (
+                <PropertyCard 
+                  key={property.id} 
+                  property={property} 
+                  onContact={handleContactLandlord}
+                  onMoreInfo={() => {
+                    handleContactLandlord(property.id);
+                    setShowSetupModal(true);
+                  }}
                 />
-                
-               
-                {/* Sponsored Badge */}
-                {property.sponsored && (
-                  <div className="absolute top-3 left-3 bg-[#02D482] text-white px-3 py-1 rounded-full text-xs font-medium">
-                    Sponsored
-                  </div>
-                )}
-
-                {/* Verification Badge */}
-                {property.documentationStatus === 'Verified' && (
-                  <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1">
-                    <CheckCircle className="w-3 h-3 text-[#02D482]" />
-                    <span className="text-xs text-gray-700">Verified</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Property Details */}
-              <div className="space-y-2">
-                {/* Location and Rating */}
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center gap-1 text-sm text-gray-600">
-                    <MapPin className="w-4 h-4" />
-                    <span className="truncate">{property.location}</span>
-                  </div>
-                 
-                </div>
-
-                {/* Property Type */}
-                <h3  className="font-medium font-Poppins text-gray-900 group-hover:text-[#02D482] transition-colors">
-                  {property.type}
-                </h3>
-
-                {/* Landlord Info */}
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <img 
-                    src={property.landlordAvatar} 
-                    alt={property.landlordName}
-                    className="w-5 h-5 rounded-full object-cover"
-                  />
-                  <span>Hosted by {property.landlordName}</span>
-                </div>
-
-                {/* Property Features */}
-                <div className="flex items-center gap-3 text-sm text-gray-600">
-                  <span>{property.bedrooms} bed{property.bedrooms > 1 ? 's' : ''}</span>
-                  <span>•</span>
-                  <span>{property.bathrooms} bath{property.bathrooms > 1 ? 's' : ''}</span>
-                </div>
-
-                {/* Price */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-lg font-semibold text-gray-900">
-                      ${property.price.toLocaleString()}
-                    </span>
-                    <span className="text-sm text-gray-600">/{property.priceUnit}</span>
-                  </div>
-                   <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleContactLandlord(property.id);
- 
-                      navigate(`/property/${property.id}`);
-
-                    }}
-                    className="border-[#02D482] border-1 text-[#02D482] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#02D482] hover:text-amber-50 transition-colors"
-                  >
-                    More info
-                  </button>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleContactLandlord(property.id);
-                    }}
-                    className="bg-[#02D482] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors"
-                  >
-                    Contact
-                  </button>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+        )}
+
+        {/* Regular Properties */}
+        <div>
+          <h2 className="text-xl font-semibold mb-6 text-gray-900">Available Properties</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {regularProperties.map((property) => (
+              <PropertyCard 
+                key={property.id} 
+                property={property} 
+                onContact={handleContactLandlord}
+                onMoreInfo={() => {
+                  handleContactLandlord(property.id);
+                  setShowSetupModal(true);
+                }}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Empty State */}
@@ -396,13 +328,29 @@ const TenantsMainapp = () => {
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t mt-16">
-        <div className="max-w-7xl mx-auto px-8 py-8">
-          <div className="bg-[#02D482] text-white text-center py-4 rounded-lg">
-            <div className="text-sm font-medium animate-pulse">
-              🏠 Special offers available on selected properties - Limited time only!
-            </div>
+        <div className='overflow-hidden bg-[#02D482] text-white p-2'>
+          <div
+            className="whitespace-nowrap animate-marquee text-center text-lg font-semibold"
+            style={{
+              display: 'inline-block',
+              minWidth: '100%',
+              animation: 'marquee 12s linear infinite'
+            }}
+          >
+            Sponsored post here 
           </div>
         </div>
+        <style>
+          {`
+          @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+          }
+          .animate-marquee {
+            animation: marquee 12s linear infinite;
+          }
+          `}
+        </style>
       </footer>
     </div>
   );
