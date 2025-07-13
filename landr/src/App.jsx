@@ -15,6 +15,7 @@ import PropertyDetails from './Mainapp/Tenants/PropertyDetails';
 import Profile from './Mainapp/Tenants/Profile/profile'
 import Onboarding from './Mainapp/Tenants/Profile/onboarding'
 import Onboarding2 from './Mainapp/Tenants/Profile/onboarding2'
+import Kyc from './Mainapp/Landlords/Kyc'
 import { Routes, Route,BrowserRouter } from 'react-router-dom'
 
 import './App.css'
@@ -49,6 +50,7 @@ function App() {
         <Route path="/TenantsMainapp/profile" element={<Profile />} />
         <Route path="/TenantsMainapp/profile/onboarding" element={<Onboarding />} />
         <Route path="/TenantsMainapp/profile/onboarding2" element={<Onboarding2 />} />
+        <Route path="/LandlordsMainapp/kyc" element={<Kyc />} />
         
         {/* Add more routes as needed */}
       </Routes>

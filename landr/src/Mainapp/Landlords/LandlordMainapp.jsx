@@ -1,7 +1,51 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import {X } from 'lucide-react';
+
 export default function LandlordMainapp() {
+    const navigate = useNavigate();
+    const[showmodel, setShowModel] = React.useState(true);
+
+    const handleCloseModal = () => {
+        setShowModel(false);
+    }
+
     return (
         <>
             <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+                {showmodel && (
+                       <div className="fixed inset-0 bg-gray-600/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
+            <div className="flex items-center justify-between mb-6">
+             
+              <button 
+                onClick={handleCloseModal}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="text-left mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Complete your KYC </h2>
+              <p className="text-[#02D482] font-Poppins">To proceed & access your dashboard, you’d need
+                       to complete your kyc to verify your identity.
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={ () =>{
+                  navigate("/LandlordsMainapp/kyc")
+                }}
+                className="bg-[#02D482] text-white py-3 rounded-full font-Poppins font-medium hover:bg-green-600 transition-colors"
+              >
+               Proceed to KYC
+              </button>
+            </div>
+          </div>
+        </div>
+                )}
                 <h1 className="text-2xl font-bold mb-4">Welcome to the Landlord Main App</h1>
                 <p className="text-gray-600">This is the main application for landlords.</p>
             </div>
