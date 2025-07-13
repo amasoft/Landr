@@ -1,32 +1,92 @@
-// components/Navbar.js
+
 import logo from '../assets/Landr.png'
 import { Link } from 'react-scroll';
+import { ToastContainer, toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import React, { useState } from 'react';
 
-
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: ''
+    });
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
-  
     const navigate = useNavigate();
     
     function handleLoginOpen() {
         setShowLogin(true);
+        setError(''); 
     }
   
     function handleLoginClose() {
         setShowLogin(false);
+        setLoginData({ email: '', password: '' }); 
+        setError(''); 
     }
 
-   ;
+    function handleInputChange(e) {
+        const { name, value } = e.target;
+        setLoginData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+
+    async function handleLoginSubmit(e) {
+        e.preventDefault();
+        setIsLoading(true);
+        setError('');
+
+        try {
+            const response = await fetch('/api/api/Authentications/UserLogin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: loginData.email,
+                    password: loginData.password
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Login failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            
+            console.log('Login successful:', data);
+            toast.success("welcome back" + data.firstName + " " + data.lastName, {
+                position: "top-right",
+                autoClose: 5000,}
+            )
+        
+            
+            
+           
+            navigate ("/TenantsMainapp")
+            
+          
+            
+        } catch (err) {
+            console.error('Login error:', err);
+            setError(err.message || 'Login failed. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <>
             <div className="flex justify-between items-center p-4 ml-10 mr-10">
                 <img src={logo} className='w-20' alt="Logo" />
+                <ToastContainer />
                 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center font-Poppins gap-2">
@@ -193,7 +253,7 @@ export default function Navbar() {
                 </div>
             )}
 
-            {/* Login Modal - You can also convert this to use context later */}
+            {/* Login Modal */}
             {showLogin && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-700/45">
                     <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm relative">
@@ -207,24 +267,40 @@ export default function Navbar() {
                             </button>
                         </div>
                         <h2 className="font-bold mb-4 text-left">Login your account Here.</h2>
-                        <form className="flex flex-col gap-4">
+                        
+                        {error && (
+                            <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm">
+                                {error}
+                            </div>
+                        )}
+                        
+                        <form className="flex flex-col gap-4" onSubmit={handleLoginSubmit}>
                             <input
                                 type="email"
+                                name="email"
                                 placeholder="Email"
+                                value={loginData.email}
+                                onChange={handleInputChange}
                                 className="border-gray-600 border rounded-[100px] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#02D482]"
                                 required
+                                disabled={isLoading}
                             />
                             <input
                                 type="password"
+                                name="password"
                                 placeholder="Password"
+                                value={loginData.password}
+                                onChange={handleInputChange}
                                 className="border-gray-600 border rounded-[100px] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#02D482]"
                                 required
+                                disabled={isLoading}
                             />
                             <button
                                 type="submit"
-                                className="rounded-[100px] bg-[#02D482] text-white px-6 py-2 font-Poppins hover:bg-[#02C478] transition-colors"
+                                className="rounded-[100px] bg-[#02D482] text-white px-6 py-2 font-Poppins hover:bg-[#02C478] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={isLoading}
                             >
-                                Login
+                                {isLoading ? 'Logging in...' : 'Login'}
                             </button>
                         </form>
                     </div>
