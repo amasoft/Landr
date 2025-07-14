@@ -20,7 +20,7 @@ export default function LandlordMainapp() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white">
         {showmodel && (
           <div className="fixed inset-0 bg-gray-600/70 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
@@ -61,10 +61,7 @@ export default function LandlordMainapp() {
         )}
         {kycCompleted && <LandlordDashboard />}
         {!showmodel && !kycCompleted && (
-          <>
-            <h1 className="text-2xl font-bold mb-4">Welcome to the Landlord Main App</h1>
-            <p className="text-gray-600">This is the main application for landlords.</p>
-          </>
+      <LandlordDashboard />
         )}
       </div>
     </>

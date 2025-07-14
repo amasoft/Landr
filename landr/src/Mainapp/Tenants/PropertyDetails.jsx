@@ -1,10 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import logo from '../../assets/Landr.png'
 import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, User, CheckCircle, Star, ArrowLeft, Heart, Bed, Bath, Ruler, Car } from 'lucide-react';
 import { mockProperties } from './mockProperties';
+import ContactLandlord from './Contactlandlord';
 
 const PropertyDetails = () => {
+  const [showContactModal, setShowContactModal] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   
@@ -44,6 +46,19 @@ const PropertyDetails = () => {
 
       {/* Property Content */}
       <div className="max-w-7xl mx-auto px-8 py-8">
+        {showContactModal && (
+               <ContactLandlord 
+               landlord={{
+                landlordName: property.landlordName,
+              landlordAvatar: property.landlordAvatar
+               }}
+               property={{
+             type: property.type,
+              location: property.location
+              }}
+             onClose={() => setShowContactModal(false)}
+           />
+           )}
         {/* Property Header */}
         <div className="mb-6 flex items-center justify-between">
           <div>
@@ -196,9 +211,12 @@ const PropertyDetails = () => {
 
               {/* Action Buttons */}
               <div className="space-y-3">
-                <button className="w-full bg-[#02D482] text-white py-3 rounded-lg font-medium hover:bg-green-600 transition-colors">
-                  Contact Landlord
-                </button>
+               <button 
+               onClick={() => setShowContactModal(true)}
+                 className="w-full bg-[#02D482] text-white py-3 rounded-lg font-medium hover:bg-green-600 transition-colors"
+                  >
+                 Contact Landlord
+               </button>
                 <button className="w-full border border-[#02D482] text-[#02D482] py-3 rounded-lg font-medium hover:bg-[#02D482]/10 transition-colors">
                   Schedule Visit
                 </button>

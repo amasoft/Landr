@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, X, Camera, Home, MapPin, Bed, Bath, DollarSign, Ruler, Sofa, PawPrint, Calendar, User, Phone, Mail } from 'lucide-react';
+import { Save, X, Camera, Home, MapPin, Bed, Bath, DollarSign, Ruler, Sofa, PawPrint, Calendar, User, Phone, Mail, Video } from 'lucide-react';
 
 const AddPropertyForm = ({ onClose, onAdd }) => {
   const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
     bedrooms: '',
     bathrooms: '',
     description: '',
-    images: [],
+    media: [], // Changed from images to media to include both images and videos
     squareFootage: '',
     furnished: false,
     petFriendly: false,
@@ -23,7 +23,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
     leaseEnd: ''
   });
 
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [mediaPreviews, setMediaPreviews] = useState([]);
   const [newAmenity, setNewAmenity] = useState('');
   const [activeSection, setActiveSection] = useState('basic');
 
@@ -46,27 +46,41 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
   const handleFileUpload = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
-      const validFiles = files.filter(file => file.type.startsWith('image/'));
+      const validFiles = files.filter(file => 
+        file.type.startsWith('image/') || file.type.startsWith('video/')
+      );
       
       if (validFiles.length !== files.length) {
-        alert('Please select valid image files');
+        alert('Please select valid image or video files');
         return;
       }
 
-      const newImagePreviews = [];
-      const newImages = [];
+      const newMediaPreviews = [];
+      const newMedia = [];
 
       validFiles.forEach((file, index) => {
         const reader = new FileReader();
         reader.onload = (e) => {
-          newImagePreviews.push(e.target.result);
-          newImages.push({ url: e.target.result, description: `Property image ${index + 1}` });
+          const mediaItem = {
+            url: e.target.result,
+            type: file.type.startsWith('image/') ? 'image' : 'video',
+            description: file.type.startsWith('image/') 
+              ? `Property image ${formData.media.filter(m => m.type === 'image').length + 1}`
+              : `Property video ${formData.media.filter(m => m.type === 'video').length + 1}`
+          };
+          
+          newMediaPreviews.push({
+            url: e.target.result,
+            type: mediaItem.type
+          });
+          
+          newMedia.push(mediaItem);
 
           if (index === validFiles.length - 1) {
-            setImagePreviews([...imagePreviews, ...newImagePreviews]);
+            setMediaPreviews([...mediaPreviews, ...newMediaPreviews]);
             setFormData({
               ...formData,
-              images: [...formData.images, ...newImages]
+              media: [...formData.media, ...newMedia]
             });
           }
         };
@@ -75,16 +89,16 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
     }
   };
 
-  const removeImage = (index) => {
-    const newImagePreviews = [...imagePreviews];
-    newImagePreviews.splice(index, 1);
-    setImagePreviews(newImagePreviews);
+  const removeMedia = (index) => {
+    const newMediaPreviews = [...mediaPreviews];
+    newMediaPreviews.splice(index, 1);
+    setMediaPreviews(newMediaPreviews);
 
-    const newImages = [...formData.images];
-    newImages.splice(index, 1);
+    const newMedia = [...formData.media];
+    newMedia.splice(index, 1);
     setFormData({
       ...formData,
-      images: newImages
+      media: newMedia
     });
   };
 
@@ -166,7 +180,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                     name="price"
                     value={formData.price}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                     placeholder="Enter price"
                     required
                   />
@@ -174,7 +188,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                     name="priceUnit"
                     value={formData.priceUnit}
                     onChange={handleChange}
-                    className="p-3 border border-l-0 border-gray-300 rounded-r-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="p-3 border border-l-0 border-gray-300 rounded-r-lg bg-gray-50 focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   >
                     <option value="month">/month</option>
                     <option value="week">/week</option>
@@ -189,7 +203,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                 >
                   <option value="vacant">Vacant</option>
                   <option value="occupied">Occupied</option>
@@ -207,7 +221,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="bedrooms"
                   value={formData.bedrooms}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   min="0"
                   required
                 />
@@ -223,7 +237,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="bathrooms"
                   value={formData.bathrooms}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   min="0"
                   step="0.5"
                   required
@@ -240,7 +254,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="squareFootage"
                   value={formData.squareFootage}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   min="0"
                 />
               </div>
@@ -254,7 +268,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                       name="furnished"
                       checked={formData.furnished}
                       onChange={handleChange}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-[#02D482] focus:ring-[#02d46b] border-gray-300 rounded"
                     />
                     <span className="flex items-center text-sm text-gray-700">
                       <Sofa className="mr-1 h-4 w-4" /> Furnished
@@ -266,7 +280,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                       name="petFriendly"
                       checked={formData.petFriendly}
                       onChange={handleChange}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-[#02D482] focus:ring-[#02D482] border-gray-300 rounded"
                     />
                     <span className="flex items-center text-sm text-gray-700">
                       <PawPrint className="mr-1 h-4 w-4" /> Pet Friendly
@@ -283,7 +297,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                 value={formData.description}
                 onChange={handleChange}
                 rows="3"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                 placeholder="Enter property description"
               />
             </div>
@@ -301,13 +315,13 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   value={newAmenity}
                   onChange={(e) => setNewAmenity(e.target.value)}
                   placeholder="Enter amenity (e.g. Swimming Pool)"
-                  className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAmenity())}
                 />
                 <button
                   type="button"
                   onClick={addAmenity}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-[#02D482] text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Add
                 </button>
@@ -321,13 +335,13 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   {formData.amenities.map((amenity, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center gap-1"
+                      className="px-3 py-1 bg-blue-100 text-[#02D482] rounded-full text-sm flex items-center gap-1"
                     >
                       {amenity}
                       <button
                         type="button"
                         onClick={() => removeAmenity(amenity)}
-                        className="text-blue-600 hover:text-blue-800"
+                        className="text-[#02D482] hover:text-blue-800"
                       >
                         <X size={14} />
                       </button>
@@ -355,7 +369,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="tenant"
                   value={formData.tenant}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   placeholder="Enter tenant name"
                 />
               </div>
@@ -370,7 +384,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="tenantPhone"
                   value={formData.tenantPhone}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   placeholder="Enter phone number"
                 />
               </div>
@@ -385,7 +399,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="tenantEmail"
                   value={formData.tenantEmail}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                   placeholder="Enter email address"
                 />
               </div>
@@ -400,7 +414,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="leaseStart"
                   value={formData.leaseStart}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                 />
               </div>
               
@@ -414,31 +428,34 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                   name="leaseEnd"
                   value={formData.leaseEnd}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#02D482] focus:border-transparent"
                 />
               </div>
             </div>
           </div>
         );
       
-      case 'images':
+    case 'images':
         return (
           <div className="space-y-6">
             <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700">Upload Images</label>
+              <label className="block text-sm font-medium text-gray-700">Upload Images & Videos</label>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <Camera className="w-8 h-8 mb-2 text-gray-500" />
+                    <div className="flex gap-2 mb-2">
+                      <Camera className="w-8 h-8 text-gray-500" />
+                      <Video className="w-8 h-8 text-gray-500" />
+                    </div>
                     <p className="mb-2 text-sm text-gray-500">
                       <span className="font-semibold">Click to upload</span> or drag and drop
                     </p>
-                    <p className="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 5MB each)</p>
+                    <p className="text-xs text-gray-500">Images (PNG, JPG, JPEG) or Videos (MP4, MOV) (MAX. 10MB each)</p>
                   </div>
                   <input
                     type="file"
                     className="hidden"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     onChange={handleFileUpload}
                     multiple
                   />
@@ -446,24 +463,35 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
               </div>
             </div>
             
-            {imagePreviews.length > 0 && (
+            {mediaPreviews.length > 0 && (
               <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Images</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Media</h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {imagePreviews.map((preview, index) => (
+                  {mediaPreviews.map((preview, index) => (
                     <div key={index} className="relative group">
-                      <img
-                        src={preview}
-                        alt={`Property preview ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg border border-gray-200"
-                      />
+                      {preview.type === 'image' ? (
+                        <img
+                          src={preview.url}
+                          alt={`Property preview ${index + 1}`}
+                          className="w-full h-32 object-cover rounded-lg border border-gray-200"
+                        />
+                      ) : (
+                        <video
+                          src={preview.url}
+                          className="w-full h-32 object-cover rounded-lg border border-gray-200"
+                          controls={false}
+                        />
+                      )}
                       <button
                         type="button"
-                        onClick={() => removeImage(index)}
+                        onClick={() => removeMedia(index)}
                         className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X size={16} />
                       </button>
+                      <div className="absolute bottom-2 left-2 p-1 bg-black bg-opacity-50 text-white text-xs rounded">
+                        {preview.type === 'image' ? 'Image' : 'Video'}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -493,25 +521,25 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
             <nav className="-mb-px flex space-x-8">
               <button
                 onClick={() => setActiveSection('basic')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'basic' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'basic' ? 'border-[#02D482] text-[#02D482]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
                 Basic Info
               </button>
               <button
                 onClick={() => setActiveSection('amenities')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'amenities' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'amenities' ? 'border-[#02D482] text-[#02D482]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
                 Amenities
               </button>
               <button
                 onClick={() => setActiveSection('tenant')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'tenant' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'tenant' ? 'border-[#02D482] text-[#02D482]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
                 Tenant Info
               </button>
               <button
                 onClick={() => setActiveSection('images')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'images' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeSection === 'images' ? 'border-[#02D482] text-[#02D482]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
                 Images
               </button>
@@ -552,7 +580,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
                     const currentIndex = sections.indexOf(prev);
                     return sections[currentIndex + 1];
                   })}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-6 py-2 bg-[#02D482] text-white rounded-lg hover:bg-[#02D482] transition-colors"
                 >
                   Next
                 </button>

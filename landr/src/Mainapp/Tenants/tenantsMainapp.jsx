@@ -2,16 +2,23 @@ import React, { useState, useEffect } from 'react';
 import logo from '../../assets/Landr.png';
 import { mockProperties } from './mockProperties.jsx';
 import { useNavigate } from 'react-router-dom';
+import ContactLandlord from './Contactlandlord.jsx';
 import { MapPin, User, CheckCircle, Search, Star, Heart, X } from 'lucide-react';
 
-// Property Card Component moved to the top
-const PropertyCard = ({ property, onContact, onMoreInfo }) => {
+const PropertyCard = ({ property, onContact, onMoreInfo, onContactLandlord }) => {
+  // Safe image access - fallback to first image if second doesn't exist
+  const displayImage = property.images && property.images.length > 1 
+    ? property.images[1].url 
+    : property.images && property.images.length > 0 
+      ? property.images[0].url 
+      : 'https://via.placeholder.com/400x300?text=No+Image';
+
   return (
     <div className="group cursor-pointer">
       {/* Image Container */}
       <div className="relative h-64 bg-gray-200 rounded-xl overflow-hidden mb-3">
         <img
-          src={property.images[0]}
+          src={displayImage}
           alt={`${property.type} in ${property.location}`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -64,7 +71,7 @@ const PropertyCard = ({ property, onContact, onMoreInfo }) => {
           <span>{property.bathrooms} bath{property.bathrooms > 1 ? 's' : ''}</span>
         </div>
 
-        {/* Price */}
+        {/* Price and Buttons */}
         <div className="flex items-center justify-between">
           <div>
             <span className="text-lg font-semibold text-gray-900">
@@ -72,24 +79,26 @@ const PropertyCard = ({ property, onContact, onMoreInfo }) => {
             </span>
             <span className="text-sm text-gray-600">/{property.priceUnit}</span>
           </div>
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              onMoreInfo();
-            }}
-            className="border-[#02D482] border-1 text-[#02D482] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#02D482] hover:text-amber-50 transition-colors"
-          >
-            More info
-          </button>
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              onContact(property.id);
-            }}
-            className="bg-[#02D482] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors"
-          >
-            Contact
-          </button>
+          <div className="flex gap-2">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onMoreInfo(property);
+              }}
+              className="border-[#02D482] border-1 text-[#02D482] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#02D482] hover:text-amber-50 transition-colors"
+            >
+              More info
+            </button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onContactLandlord(property);
+              }}
+              className="bg-[#02D482] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors"
+            >
+              Contact
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -102,13 +111,16 @@ const TenantsMainapp = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+
   const navigate = useNavigate();
 
   // State for filters
   const [activeCategory, setActiveCategory] = useState('homes');
   const [sortBy, setSortBy] = useState('recency');
   
-  // Modal state - shows on component mount for testing
+  // Modal state - removed auto-show for setup modal
   const [showSetupModal, setShowSetupModal] = useState(false);
 
   // Categories configuration
@@ -125,24 +137,35 @@ const TenantsMainapp = () => {
     { value: 'recency', label: 'Recency' },
     { value: 'popularity', label: 'Popularity' },
     { value: 'price', label: 'Price' }
-
   ];
 
-    const handleContactLandlord = async (propertyId) => {
-    try {
-      console.log(`Contacting landlord for property ${propertyId}`);
-    } catch (err) {
-      console.error('Failed to contact landlord:', err);
-    }
+  const handleContactLandlord = (property) => {
+    setSelectedProperty(property);
+    setShowContactModal(true);
   };
 
-   const handleSearch = (e) => {
+  const handleMoreInfo = (property) => {
+   
+    console.log('More info for property:', property);
+    navigate(`/property/${property.id}`)
+  };
+
+  const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
 
- const handleCloseModal = () =>{
-      setShowSetupModal(false)
- }
+  const handleCloseModal = () => {
+    setShowSetupModal(false);
+  };
+
+  const handleCategoryChange = (categoryId) => {
+    setActiveCategory(categoryId);
+  };
+
+  const handleSortChange = (sortValue) => {
+    setSortBy(sortValue);
+  };
+
   // Simulate API call
   useEffect(() => {
     const fetchProperties = async () => {
@@ -170,11 +193,24 @@ const TenantsMainapp = () => {
   const sponsoredProperties = filteredProperties.filter(property => property.sponsored);
   const regularProperties = filteredProperties.filter(property => !property.sponsored);
 
-  // ... rest of your component code remains the same ...
-
   return (
     <div className="bg-white min-h-screen">
-      {/* Modal */}
+      {/* Contact Modal */}
+      {showContactModal && selectedProperty && (
+        <ContactLandlord 
+          landlord={{
+            landlordName: selectedProperty.landlordName,
+            landlordAvatar: selectedProperty.landlordAvatar
+          }}
+          property={{
+            type: selectedProperty.type,
+            location: selectedProperty.location
+          }}
+          onClose={() => setShowContactModal(false)}
+        />
+      )}
+     
+      {/* Setup Modal - only shows when explicitly triggered */}
       {showSetupModal && (
         <div className="fixed inset-0 bg-gray-600/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl p-6 max-w-md w-full relative">
@@ -197,8 +233,8 @@ const TenantsMainapp = () => {
             
             <div className="flex flex-col gap-3">
               <button
-                onClick={ () =>{
-                  navigate("/TenantsMainapp/profile")
+                onClick={() => {
+                  navigate("/TenantsMainapp/profile");
                 }}
                 className="bg-[#02D482] text-white py-3 rounded-full font-Poppins font-medium hover:bg-green-600 transition-colors"
               >
@@ -281,18 +317,16 @@ const TenantsMainapp = () => {
 
         {/* Sponsored Properties */}
         {sponsoredProperties.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-xl font-semibold mb-6 text-gray-900">Featured Properties</h2>
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-6 text-gray-900">Sponsored Properties</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {sponsoredProperties.map((property) => (
                 <PropertyCard 
                   key={property.id} 
                   property={property} 
                   onContact={handleContactLandlord}
-                  onMoreInfo={() => {
-                    handleContactLandlord(property.id);
-                    setShowSetupModal(true);
-                  }}
+                  onMoreInfo={handleMoreInfo}
+                  onContactLandlord={handleContactLandlord}
                 />
               ))}
             </div>
@@ -308,10 +342,8 @@ const TenantsMainapp = () => {
                 key={property.id} 
                 property={property} 
                 onContact={handleContactLandlord}
-                onMoreInfo={() => {
-                  handleContactLandlord(property.id);
-                  setShowSetupModal(true);
-                }}
+                onMoreInfo={handleMoreInfo}
+                onContactLandlord={handleContactLandlord}
               />
             ))}
           </div>

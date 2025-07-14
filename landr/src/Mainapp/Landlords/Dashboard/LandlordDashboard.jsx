@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Eye, Home, MapPin, Bed, Bath, DollarSign, X } from 'lucide-react';
+import EditPropertyForm from './EditPropertyForm';
+import AddPropertyForm from './AddPropertyForm';
+import { mockProperties } from './mockProperties';
 
 // Status Badge Component
 const StatusBadge = ({ status }) => {
@@ -10,9 +13,9 @@ const StatusBadge = ({ status }) => {
   };
   
   return (
-    <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${statusColors[status] || 'bg-gray-100 text-gray-800'}`}>
-      {status.charAt(0).toUpperCase() + status.slice(1)}
-    </span>
+    <span>
+  {status ? status.charAt(0).toUpperCase() + status.slice(1) : ''}
+</span>
   );
 };
 
@@ -26,7 +29,7 @@ const PropertyCard = ({ property, onSelect, onEdit }) => {
           alt={property.images[0]?.description || 'Property image'}
           className="w-full h-48 object-cover"
         />
-        <div className="absolute top-2 right-2">
+        <div className="absolute bg-[#02D482] text-white rounded-full px-4 py-2 top-2 right-2">
           <StatusBadge status={property.status} />
         </div>
       </div>
@@ -219,7 +222,7 @@ const DetailModal = ({ property, onClose, onEdit }) => {
                 <div className="flex flex-wrap gap-2">
                   {property.amenities?.length > 0 ? (
                     property.amenities.map((amenity, idx) => (
-                      <span key={idx} className="bg-blue-50 text-blue-800 px-3 py-1 rounded-full text-sm">
+                      <span key={idx} className="bg-blue-50 text-[#02D482] px-3 py-1 rounded-full text-sm">
                         {amenity}
                       </span>
                     ))
@@ -240,7 +243,7 @@ const DetailModal = ({ property, onClose, onEdit }) => {
             </button>
             <button
               onClick={() => onEdit(property)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 bg-[#02D482] text-white rounded-lg hover:bg-[#02D482] transition-colors"
             >
               Edit Property
             </button>
@@ -330,8 +333,8 @@ const LandlordDashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto">
+    <div className="">
+      <div className="">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">My Properties</h1>
@@ -339,7 +342,7 @@ const LandlordDashboard = () => {
           </div>
           <button
             onClick={handleStartAdd}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 bg-[#02D482] text-white px-4 py-2 rounded-lg hover:bg-[#72cf7a] transition-colors"
           >
             <Plus size={20} />
             Add Property
