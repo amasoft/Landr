@@ -48,7 +48,11 @@ export default function GeneralAuth() {
     const NavigateUser = async (role) => {
         switch (role) {
             case 'tenant':
-                navigate('/TenantsMainapp');
+              return  navigate('/TenantsMainapp');
+
+                break
+                case 'landlord':
+              return  navigate('/LandlordMainapp');
 
                 break
             default:
@@ -98,7 +102,7 @@ export default function GeneralAuth() {
         };
 
         try {
-            const response = await fetch('/api/api/Authentications/UserLogin', {
+            const response = await fetch('/api/api/Authentications/CreateUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -118,12 +122,13 @@ export default function GeneralAuth() {
             NavigateUser(accountType)
         } catch (err) {
             // console.error('Error:', JSON.stringify(err));
-            console.error('Error:', {
-    name: err.name,
-    message: err.message,
-    stack: err.stack,
-});
-            setError(err.message);
+//             console.error('Error:', {
+//     name: err.name,
+//     message: err.message,
+//     stack: err.stack,
+// });
+       
+setError(err.message);
         } finally {
             setIsLoading(false);
         }
