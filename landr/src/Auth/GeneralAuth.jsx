@@ -6,7 +6,7 @@ import { MoveLeft } from 'lucide-react';
 
 export default function GeneralAuth (){
     const navigate = useNavigate();
-    const [accountType, setAccountType] = useState('tenant');
+    const [accountType, setAccountType] = useState('');
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -114,6 +114,7 @@ export default function GeneralAuth (){
                         className="border-gray-300 border rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#02D482] transition-all"
                         value={accountType}
                     >
+                        <option value="" disabled>Select Account Type</option>
                         <option value="tenant">Tenant</option>
                         <option value="landlord">Landlord</option>
                         <option value="enterprise">Enterprise</option>

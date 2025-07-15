@@ -14,7 +14,12 @@ const PropertyCard = ({ property, onContact, onMoreInfo, onContactLandlord }) =>
   return (
     <div className="group cursor-pointer">
       {/* Image Container */}
-      <div className="relative h-64 bg-gray-200 rounded-xl overflow-hidden mb-3">
+      <div 
+      onClick={(e) => {
+                e.stopPropagation();
+                onMoreInfo(property);
+              }}
+      className="relative h-64 bg-gray-200 rounded-xl  overflow-hidden mb-3">
         <img
           src={displayImage}
           alt={`${property.type} in ${property.location}`}

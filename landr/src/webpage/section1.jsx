@@ -81,7 +81,7 @@ export default function Section1() {
         </motion.div>
 
         <motion.div 
-          className="flex flex-col md:flex-row gap-6 md:gap-4 items-start justify-items-start"
+          className="flex flex-col md:flex-row gap-10 md:gap-10 items-start justify-items-start"
           variants={containerVariants}
         >
           <motion.div className="flex-1 max-w-sm" variants={imageVariants}>
