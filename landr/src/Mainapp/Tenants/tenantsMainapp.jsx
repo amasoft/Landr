@@ -6,12 +6,10 @@ import ContactLandlord from './Contactlandlord.jsx';
 import { MapPin, User, CheckCircle, Search, Star, Heart, X } from 'lucide-react';
 
 const PropertyCard = ({ property, onContact, onMoreInfo, onContactLandlord }) => {
-  // Safe image access - fallback to first image if second doesn't exist
-  const displayImage = property.images && property.images.length > 1 
-    ? property.images[1].url 
-    : property.images && property.images.length > 0 
-      ? property.images[0].url 
-      : 'https://via.placeholder.com/400x300?text=No+Image';
+  // Use the first imported image as the display image
+  const displayImage = property.images && property.images.length > 0 
+    ? property.images[0].url 
+    : 'https://via.placeholder.com/400x300?text=No+Image';
 
   return (
     <div className="group cursor-pointer">
@@ -104,7 +102,6 @@ const PropertyCard = ({ property, onContact, onMoreInfo, onContactLandlord }) =>
     </div>
   );
 };
-
 const TenantsMainapp = () => {
   // State for properties data
   const [properties, setProperties] = useState([]);

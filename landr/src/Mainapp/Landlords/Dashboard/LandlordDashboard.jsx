@@ -20,14 +20,24 @@ const StatusBadge = ({ status }) => {
 };
 
 // Property Card Component
-const PropertyCard = ({ property, onSelect, onEdit }) => {
+const PropertyCard = ({ property, onSelect, onEdit, onDelete }) => {
+
+   const images = property.images || [];
+  const mainImage = images[0] || { 
+    url: '/placeholder-property.jpg', 
+    description: 'Property image' 
+  };
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       <div className="relative">
-        <img
-          src={property.images[0]?.url || '/placeholder-property.jpg'}
-          alt={property.images[0]?.description || 'Property image'}
+             <img
+          src={mainImage.url}
+          alt={mainImage.description}
           className="w-full h-48 object-cover"
+          onError={(e) => {
+            e.target.src = '/placeholder-property.jpg';
+            e.target.alt = 'Property image';
+          }}
         />
         <div className="absolute bg-[#02D482] text-white rounded-full px-4 py-2 top-2 right-2">
           <StatusBadge status={property.status} />
@@ -47,10 +57,9 @@ const PropertyCard = ({ property, onSelect, onEdit }) => {
           <MapPin size={14} className="mr-1" />
           {property.location}
         </p>
-        
-        <div className="flex justify-between items-center mt-4">
-          <div className="flex space-x-4 text-sm text-gray-600">
-            <span className="flex items-center">
+
+    <div className="flex space-x-4 text-sm text-gray-600">
+             <span className="flex items-center">
               <Bed size={14} className="mr-1" />
               {property.bedrooms}
             </span>
@@ -59,8 +68,22 @@ const PropertyCard = ({ property, onSelect, onEdit }) => {
               {property.bathrooms}
             </span>
           </div>
+       
+        
+        <div className="flex justify-between items-center mt-4">
+      
           
           <div className="flex space-x-2">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(property);
+              }}
+              className="px-3 bg-red-600 font-Poppins rounded text-white hover:bg-red-700 "
+              aria-label="delete property"
+            >
+              Delete lease
+            </button>
             <button 
               onClick={(e) => {
                 e.stopPropagation();
@@ -138,9 +161,15 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
   );
 };
 
-// Detail Modal Component
-const DetailModal = ({ property, onClose, onEdit }) => {
+const DetailModal = ({ property, onClose, onEdit, onDelete }) => {
   if (!property) return null;
+  
+  // Safely handle images array
+  const images = property.images || [];
+  const mainImage = images[0] || { 
+    url: '/placeholder-property.jpg', 
+    description: 'Property image' 
+  };
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -156,17 +185,25 @@ const DetailModal = ({ property, onClose, onEdit }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <img 
-                src={property.images[0]?.url || '/placeholder-property.jpg'} 
-                alt="Main property" 
+                src={mainImage.url} 
+                alt={mainImage.description || 'Property image'} 
                 className="w-full h-64 object-cover rounded-lg"
+                onError={(e) => {
+                  e.target.src = '/placeholder-property.jpg';
+                  e.target.alt = 'Property image';
+                }}
               />
               <div className="grid grid-cols-3 gap-2 mt-2">
-                {property.images.slice(0, 3).map((img, idx) => (
+                {images.slice(0, 3).map((img, idx) => (
                   <img 
                     key={idx} 
                     src={img.url} 
                     alt={img.description || `Property image ${idx + 1}`} 
                     className="h-20 w-full object-cover rounded"
+                    onError={(e) => {
+                      e.target.src = '/placeholder-property.jpg';
+                      e.target.alt = `Property image ${idx + 1}`;
+                    }}
                   />
                 ))}
               </div>
@@ -208,7 +245,7 @@ const DetailModal = ({ property, onClose, onEdit }) => {
                 </div>
                 <div className="bg-gray-50 p-3 rounded-lg">
                   <p className="text-sm text-gray-500">Area</p>
-                  <p className="font-medium">{property.area} sqft</p>
+                  <p className="font-medium">{property.squareFootage || property.area || 'N/A'} sqft</p>
                 </div>
               </div>
               
@@ -332,6 +369,11 @@ const LandlordDashboard = () => {
     setIsEditing(false);
   };
 
+  const handleDelete = (propertyToDelete) => {
+    setProperties(prev => prev.filter(prop => prop.id !== propertyToDelete.id))
+    setFilteredProperties(prev => prev.filter(prop => prop.id !== propertyToDelete.id))
+  }
+
   return (
     <div className="">
       <div className="">
@@ -375,6 +417,7 @@ const LandlordDashboard = () => {
                 property={property}
                 onSelect={handleSelectProperty}
                 onEdit={handleEditProperty}
+                onDelete={handleDelete}
               />
             ))}
           </div>
