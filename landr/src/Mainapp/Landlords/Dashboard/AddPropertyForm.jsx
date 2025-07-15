@@ -10,7 +10,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
     bedrooms: '',
     bathrooms: '',
     description: '',
-    media: [], // Changed from images to media to include both images and videos
+    images: [], // Changed from media to images to match dashboard expectations
     squareFootage: '',
     furnished: false,
     petFriendly: false,
@@ -56,7 +56,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
       }
 
       const newMediaPreviews = [];
-      const newMedia = [];
+      const newImages = []; // Changed from newMedia to newImages
 
       validFiles.forEach((file, index) => {
         const reader = new FileReader();
@@ -65,8 +65,8 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
             url: e.target.result,
             type: file.type.startsWith('image/') ? 'image' : 'video',
             description: file.type.startsWith('image/') 
-              ? `Property image ${formData.media.filter(m => m.type === 'image').length + 1}`
-              : `Property video ${formData.media.filter(m => m.type === 'video').length + 1}`
+              ? `Property image ${formData.images.filter(m => m.type === 'image' || !m.type).length + 1}`
+              : `Property video ${formData.images.filter(m => m.type === 'video').length + 1}`
           };
           
           newMediaPreviews.push({
@@ -74,13 +74,13 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
             type: mediaItem.type
           });
           
-          newMedia.push(mediaItem);
+          newImages.push(mediaItem);
 
           if (index === validFiles.length - 1) {
             setMediaPreviews([...mediaPreviews, ...newMediaPreviews]);
             setFormData({
               ...formData,
-              media: [...formData.media, ...newMedia]
+              images: [...formData.images, ...newImages] // Changed from media to images
             });
           }
         };
@@ -94,11 +94,11 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
     newMediaPreviews.splice(index, 1);
     setMediaPreviews(newMediaPreviews);
 
-    const newMedia = [...formData.media];
-    newMedia.splice(index, 1);
+    const newImages = [...formData.images]; // Changed from media to images
+    newImages.splice(index, 1);
     setFormData({
       ...formData,
-      media: newMedia
+      images: newImages // Changed from media to images
     });
   };
 

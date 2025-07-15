@@ -1,3 +1,9 @@
+import photo1 from '../../assets/Home Makeovers.jpeg';
+import photo2 from '../../assets/Modern House Plan 963-00784.jpeg';
+import photo3 from '../../assets/Home Makeovers.jpeg';
+import photo4 from '../../assets/Plan 623294DJ_ 3 Bed Traditional House Plan Under 1500 Square Feet with Brick Exterior and Storage Above the Garage.jpeg';
+import photo5 from '../../assets/_This New Hampshire Log Home Draws on Old Western Style_.jpeg';
+
 export const mockProperties = [
   {
     id: 1,
@@ -20,7 +26,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', 'Security', 'Water Supply', 'Internet Ready', 'Parking Space', 'Garden'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        url: photo1,
         description: 'Front view of the property showing the beautiful exterior and landscaping',
         category: 'exterior'
       },
@@ -75,7 +81,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', '24/7 Security', 'Swimming Pool', 'Gym', 'Elevator', 'Parking Space', 'Internet'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        url: photo2,
         description: 'Elegant living room with modern furniture and city view',
         category: 'living_room'
       },
@@ -130,7 +136,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', '24/7 Security', 'Water Supply', 'Internet Ready', 'Parking Space', 'Garden', 'Balcony'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        url: photo3,
         description: 'Impressive duplex exterior with modern architectural design',
         category: 'exterior'
       },
@@ -190,7 +196,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', 'Security', 'Water Supply', 'Internet Ready'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        url: photo4,
         description: 'Cozy studio layout with living and sleeping area',
         category: 'living_room'
       },
@@ -240,7 +246,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', '24/7 Security', 'Water Supply', 'Internet Ready', 'Parking Space', 'Garden', 'Playground'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        url: photo5,
         description: 'Townhouse exterior with neat compound and parking area',
         category: 'exterior'
       },

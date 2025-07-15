@@ -1,4 +1,5 @@
 import Frame8 from '../assets/Frame8.png'
+import Frame9 from '../assets/AI created Realistic Professional man.jpeg'
 import { Link, Element, scroller } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,9 +31,15 @@ export default function Section4 (){
                     </button>
                 </div>
                 
-                <div className="flex-1 flex justify-center lg:justify-end">
-                    <img src={Frame8} alt="Landr solutions illustration" className="h-auto w-full max-w-[400px] lg:max-w-[500px] object-contain" />
-                </div>
+   <div className="flex-1 flex justify-center lg:justify-end">
+  <div className="relative w-full max-w-[550px] aspect-[1.1/1]">
+    <img 
+      src={Frame9} 
+      alt="Landr solutions illustration" 
+      className="absolute h-full w-full object-cover rounded-2xl shadow-lg" 
+    />
+  </div>
+</div>
             </div>
         </section>
            </Element>
