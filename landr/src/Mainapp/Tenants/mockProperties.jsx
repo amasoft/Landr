@@ -58,7 +58,14 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: true,
-    availableFrom: '2025-08-01'
+    availableFrom: '2025-08-01',
+    requirements: {
+      religion: 'Any',
+      age: '25+',
+      occupation: 'Employed',
+      maritalStatus: 'Any',
+      gender: 'Any'
+    }
   },
   {
     id: 2,
@@ -113,7 +120,14 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: false,
-    availableFrom: '2025-07-15'
+    availableFrom: '2025-07-15',
+       requirements: {
+      religion: 'Any',
+      age: '22+',
+      occupation: 'Professional',
+      maritalStatus: 'Single',
+      gender: 'Female'
+    }
   },
   {
     id: 3,
@@ -173,7 +187,14 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: false,
-    availableFrom: '2025-09-01'
+    availableFrom: '2025-09-01',
+    requirements: {
+      religion: 'Any',
+      age: '30+',
+      occupation: 'Executive',
+      maritalStatus: 'Any',
+      gender: 'Any'
+    }
   },
   {
     id: 4,
@@ -223,7 +244,14 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: false,
-    availableFrom: '2025-08-15'
+    availableFrom: '2025-08-15',
+    requirements: {
+      religion: 'Any',
+      age: '25+',
+      occupation: 'Employed',
+      maritalStatus: 'Any',
+      gender: 'Any'
+    }
   },
   {
     id: 5,
@@ -278,7 +306,14 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: false,
-    availableFrom: '2025-07-30'
+    availableFrom: '2025-07-30',
+    requirements: {
+      religion: 'Any',
+      age: '30+',
+      occupation: 'Professional',
+      maritalStatus: 'Married',
+      gender: 'Any'
+    }
   },
   {
     id: 6,
@@ -338,7 +373,14 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: true,
-    availableFrom: '2025-08-10'
+    availableFrom: '2025-08-10',
+    requirements: {
+      religion: 'Any',
+      age: '25+',
+      occupation: 'Employed',
+      maritalStatus: 'Any',
+      gender: 'Any'
+    }
   },
   {
     id: 7,
@@ -388,7 +430,14 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: false,
-    availableFrom: '2025-07-20'
+    availableFrom: '2025-07-20',
+    requirements: {
+      religion: 'Any',
+      age: '18+',
+      occupation: 'Student/Young Professional',
+      maritalStatus: 'Any',
+      gender: 'Any'
+    }
   },
   {
     id: 8,
@@ -443,6 +492,13 @@ export const mockProperties = [
     ],
     category: 'homes',
     sponsored: true,
-    availableFrom: '2025-08-05'
+    availableFrom: '2025-08-05',
+    requirements: {
+      religion: 'Any',
+      age: '30+',
+      occupation: 'Executive/Expat',
+      maritalStatus: 'Any',
+      gender: 'Any'
+    }
   }
 ];

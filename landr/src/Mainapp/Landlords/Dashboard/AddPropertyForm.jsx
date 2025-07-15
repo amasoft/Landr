@@ -12,7 +12,7 @@ const AddPropertyForm = ({ onClose, onAdd }) => {
     bedrooms: '',
     bathrooms: '',
     description: '',
-    images: [], // Changed from media to images to match dashboard expectations
+    images: [], 
     squareFootage: '',
     furnished: false,
     petFriendly: false,
