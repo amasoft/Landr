@@ -17,16 +17,16 @@ export default function Navbar() {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
-    
+
     function handleLoginOpen() {
         setShowLogin(true);
-        setError(''); 
+        setError('');
     }
-  
+
     function handleLoginClose() {
         setShowLogin(false);
-        setLoginData({ email: '', password: '' }); 
-        setError(''); 
+        setLoginData({ email: '', password: '' });
+        setError('');
     }
 
     function handleInputChange(e) {
@@ -55,30 +55,31 @@ export default function Navbar() {
             });
             const data = await response.json();
 
-console.log("USerloging:::"+JSON.stringify(data))
-console.log("USerloging error:::"+data.message)
+            console.log("USerloging:::" + JSON.stringify(data))
+            console.log("USerloging error:::" + data.message)
             // if (!response.ok) {
             //     throw new Error(`Login failed: ${response.status}`);
             // }
-if (data.message) {
+            if (data.message) {
                 throw new Error(` ${data.message}`);
             }
             // const data = await response.json();
-            
-            
+
+
             console.log('Login successful:', data);
             toast.success("welcome back" + data.firstName + " " + data.lastName, {
                 position: "top-right",
-                autoClose: 5000,}
+                autoClose: 5000,
+            }
             )
-        
-            
-            
-           
-            navigate ("/TenantsMainapp")
-            
-          
-            
+
+
+
+
+            navigate("/TenantsMainapp")
+
+
+
         } catch (err) {
             console.error('Login error:', err);
             setError(err.message || 'Login failed. Please try again.');
@@ -92,7 +93,7 @@ if (data.message) {
             <div className="flex justify-between items-center p-4 ml-10 mr-10">
                 <img src={logo} className='w-20' alt="Logo" />
                 <ToastContainer />
-                
+
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center font-Poppins gap-2">
                     <Link
@@ -239,11 +240,11 @@ if (data.message) {
                     >
                         Login
                     </button>
-                    <button 
+                    <button
                         className="rounded-[100px] bg-[#02D482] text-white px-4 py-3 text-[13px] font-Poppins"
                         onClick={() => {
                             setMenuOpen(false);
-                         navigate('/signup')
+                            navigate('/signup')
                         }}
                     >
                         Create an account
@@ -272,13 +273,13 @@ if (data.message) {
                             </button>
                         </div>
                         <h2 className="font-bold mb-4 text-left">Login your account Here.</h2>
-                        
+
                         {error && (
                             <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm">
                                 {error}
                             </div>
                         )}
-                        
+
                         <form className="flex flex-col gap-4" onSubmit={handleLoginSubmit}>
                             <input
                                 type="email"
