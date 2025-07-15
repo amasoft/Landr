@@ -98,7 +98,7 @@ export default function GeneralAuth() {
         };
 
         try {
-            const response = await fetch('/api/api/Authentications/UserLogin', {
+            const response = await fetch('/api/api/Authentications/CreateUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
