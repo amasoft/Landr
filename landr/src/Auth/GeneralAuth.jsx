@@ -28,14 +28,14 @@ export default function GeneralAuth() {
             [name]: type === 'checkbox' ? checked : value,
         }));
     };
- const NavigateUser = async (role) => {
+    const NavigateUser = async (role) => {
         switch (role) {
             case 'tenant':
-            return    navigate('/TenantsMainapp');
+                return navigate('/TenantsMainapp');
 
                 break
-                case 'landlord':
-              return  navigate('/LandlordMainapp');
+            case 'landlord':
+                return navigate('/LandlordMainapp');
 
             default:
                 navigate('')
@@ -54,7 +54,7 @@ export default function GeneralAuth() {
     //     }
 
     //     // API LOGIC - COMMENTED OUT
-        
+
     //     const payload = {
     //         firstName: formData.firstName,
     //         lastName: formData.lastName,
@@ -109,14 +109,14 @@ export default function GeneralAuth() {
     //         } else if (accountType === 'enterprise') {
     //             navigate('/EnterpriseMainapp');
     //         }
-            
+
     //     } catch (err) {
     //         console.error('Error details:', {
     //             name: err.name,
     //             message: err.message,
     //             stack: err.stack,
     //         });
-            
+
     //         // Handle different types of errors
     //         if (err.name === 'TypeError' && err.message.includes('fetch')) {
     //             setError('Network error. Please check your internet connection.');
@@ -128,9 +128,9 @@ export default function GeneralAuth() {
     //     } finally {
     //         setIsLoading(false);
     //     }
-        
 
-      
+
+
     //     try {
     //         if (accountType === 'tenant') {
     //             navigate('/TenantsMainapp');
@@ -149,7 +149,7 @@ export default function GeneralAuth() {
     //         setIsLoading(false);
     //     }
     // };
-const handleLogin = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError('');
@@ -176,6 +176,38 @@ const handleLogin = async (e) => {
 
         };
 
+        //         try {
+        //             const response = await fetch('/api/Authentications/CreateUser', {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'Content-Type': 'application/json'
+        //                 },
+        //                 body: JSON.stringify(payload)
+        //             });
+        //             console.log("response"+JSON.stringify(response))
+        //             console.log(0, JSON.stringify(payload))
+        //             const data = await response.json();
+        //             console.log(9, JSON.stringify(data))
+
+        //             if (data.message) {
+        //                 throw new Error(data.message || 'Something went wrong');
+        //             }
+
+        //             console.log('Success:', data);
+        //             // Optionally redirect or show success toast
+        //             NavigateUser(accountType)
+        //         } catch (err) {
+        //             // console.error('Error:', JSON.stringify(err));
+        //             console.error('Error:', {
+        //     name: err.name,
+        //     message: err.message,
+        //     stack: err.stack,
+        // });
+        //             setError(err.message);
+        //         } finally {
+        //             setIsLoading(false);
+        //         }
+
         try {
             const response = await fetch('/api/Authentications/CreateUser', {
                 method: 'POST',
@@ -184,28 +216,33 @@ const handleLogin = async (e) => {
                 },
                 body: JSON.stringify(payload)
             });
-            console.log(0, JSON.stringify(payload))
+console.log("response")
+console.log(response)
+            if (!response.ok) {
+                const text1 = await response.json() // fallback in case it's not JSON
+                console.error("Raw response error:", text1.message);
+                throw new Error(text1.message);
+            }
+
             const data = await response.json();
-            console.log(9, JSON.stringify(data))
+            console.log('Success:', data);
 
             if (data.message) {
                 throw new Error(data.message || 'Something went wrong');
             }
 
-            console.log('Success:', data);
-            // Optionally redirect or show success toast
-            NavigateUser(accountType)
+            NavigateUser(accountType);
         } catch (err) {
-            // console.error('Error:', JSON.stringify(err));
             console.error('Error:', {
-    name: err.name,
-    message: err.message,
-    stack: err.stack,
-});
+                name: err.name,
+                message: err.message,
+                stack: err.stack,
+            });
             setError(err.message);
         } finally {
             setIsLoading(false);
         }
+
     };
     return (
         <>
