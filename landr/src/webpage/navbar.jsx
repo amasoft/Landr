@@ -53,12 +53,17 @@ export default function Navbar() {
                     password: loginData.password
                 })
             });
-
-            if (!response.ok) {
-                throw new Error(`Login failed: ${response.status}`);
-            }
-
             const data = await response.json();
+
+console.log("USerloging:::"+JSON.stringify(data))
+console.log("USerloging error:::"+data.message)
+            // if (!response.ok) {
+            //     throw new Error(`Login failed: ${response.status}`);
+            // }
+if (data.message) {
+                throw new Error(` ${data.message}`);
+            }
+            // const data = await response.json();
             
             
             console.log('Login successful:', data);
