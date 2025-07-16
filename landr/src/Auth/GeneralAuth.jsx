@@ -209,8 +209,15 @@ export default function GeneralAuth() {
         //         }
 
         try {
-            const response = await fetch('/api/Authentications/CreateUser', {
-                method: 'POST',
+            // const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/Authentications/CreateUser`, ...)
+
+            // const response = await fetch('/api/Authentications/CreateUser', {
+const baseUrl = import.meta.env.PROD
+  ? 'https://landrentals.azurewebsites.net'
+  : '/api';
+
+const response = await fetch(`${baseUrl}/Authentications/CreateUser`, {
+            method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
