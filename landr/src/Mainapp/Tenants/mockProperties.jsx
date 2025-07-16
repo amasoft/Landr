@@ -336,7 +336,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', '24/7 Security', 'Swimming Pool', 'Gym', 'Elevator', 'Parking Space', 'Concierge', 'Terrace'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        url: photo1,
         description: 'Luxurious living room with panoramic city views',
         category: 'living_room'
       },
@@ -403,7 +403,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', 'Security', 'Water Supply', 'Internet', 'Shared Kitchen', 'Shared Living Room'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        url: photo4,
         description: 'Private bedroom with single bed and study desk',
         category: 'bedroom'
       },
@@ -460,7 +460,7 @@ export const mockProperties = [
     amenities: ['Air Conditioning', 'Generator', '24/7 Security', 'Swimming Pool', 'Gym', 'Elevator', 'Parking Space', 'Concierge', 'Housekeeping', 'Laundry'],
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+        url: photo2,
         description: 'Elegantly furnished living room with designer furniture',
         category: 'living_room'
       },
