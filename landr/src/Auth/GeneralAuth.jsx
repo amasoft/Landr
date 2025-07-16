@@ -41,114 +41,7 @@ export default function GeneralAuth() {
                 navigate('')
         }
     }
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-    //     setIsLoading(true);
-    //     setError('');
-
-    //     // Basic validation
-    //     if (formData.password !== formData.confirmPassword) {
-    //         setError("Passwords do not match.");
-    //         setIsLoading(false);
-    //         return;
-    //     }
-
-    //     // API LOGIC - COMMENTED OUT
-
-    //     const payload = {
-    //         firstName: formData.firstName,
-    //         lastName: formData.lastName,
-    //         email: formData.email,
-    //         password: formData.password,
-    //         role: accountType,
-    //     };
-
-    //     try {
-    //         const response = await fetch('https://landrentals.azurewebsites.net/api/Authentications/CreateUser', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Accept': 'application/json',
-    //             },
-    //             body: JSON.stringify(payload)
-    //         });
-
-    //         console.log('Response status:', response.status);
-    //         console.log('Response ok:', response.ok);
-    //         console.log('Payload sent:', JSON.stringify(payload));
-
-    //         // Check if response is ok first
-    //         if (!response.ok) {
-    //             // Try to get error message from response
-    //             let errorMessage = `HTTP error! status: ${response.status}`;
-    //             try {
-    //                 const errorData = await response.json();
-    //                 errorMessage = errorData.message || errorMessage;
-    //             } catch (jsonError) {
-    //                 // If JSON parsing fails, use the text content
-    //                 const errorText = await response.text();
-    //                 errorMessage = errorText || errorMessage;
-    //             }
-    //             throw new Error(errorMessage);
-    //         }
-
-    //         // Parse JSON response
-    //         const data = await response.json();
-    //         console.log('Success:', data);
-
-    //         // Check if the response contains an error message
-    //         if (data.error || data.message) {
-    //             throw new Error(data.error || data.message);
-    //         }
-
-    //         // Success - navigate user
-    //         if (accountType === 'tenant') {
-    //             navigate('/TenantsMainapp');
-    //         } else if (accountType === 'landlord') {
-    //             navigate('/LandlordMainapp');
-    //         } else if (accountType === 'enterprise') {
-    //             navigate('/EnterpriseMainapp');
-    //         }
-
-    //     } catch (err) {
-    //         console.error('Error details:', {
-    //             name: err.name,
-    //             message: err.message,
-    //             stack: err.stack,
-    //         });
-
-    //         // Handle different types of errors
-    //         if (err.name === 'TypeError' && err.message.includes('fetch')) {
-    //             setError('Network error. Please check your internet connection.');
-    //         } else if (err.message.includes('JSON')) {
-    //             setError('Server response error. Please try again.');
-    //         } else {
-    //             setError(err.message || 'Something went wrong. Please try again.');
-    //         }
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-
-
-
-    //     try {
-    //         if (accountType === 'tenant') {
-    //             navigate('/TenantsMainapp');
-    //         } else if (accountType === 'landlord') {
-    //             navigate('/LandlordMainapp');
-    //         } else if (accountType === 'enterprise') {
-    //             navigate('/EnterpriseMainapp');
-    //         } else {
-    //             setError('Please select an account type');
-    //             setIsLoading(false);
-    //             return;
-    //         }
-    //     } catch (err) {
-    //         setError('Navigation failed. Please try again.');
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
+   
     const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -160,13 +53,7 @@ export default function GeneralAuth() {
             setIsLoading(false);
             return;
         }
-        {
-            //   "firstName": "string",
-            //   "lastName": "string",
-            //   "email": "string",
-            //   "role": "string",
-            //   "password": "string"
-        }
+        
         const payload = {
             firstName: formData.firstName,
             lastName: formData.lastName,
@@ -176,47 +63,8 @@ export default function GeneralAuth() {
 
         };
 
-        //         try {
-        //             const response = await fetch('/api/Authentications/CreateUser', {
-        //                 method: 'POST',
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 },
-        //                 body: JSON.stringify(payload)
-        //             });
-        //             console.log("response"+JSON.stringify(response))
-        //             console.log(0, JSON.stringify(payload))
-        //             const data = await response.json();
-        //             console.log(9, JSON.stringify(data))
-
-        //             if (data.message) {
-        //                 throw new Error(data.message || 'Something went wrong');
-        //             }
-
-        //             console.log('Success:', data);
-        //             // Optionally redirect or show success toast
-        //             NavigateUser(accountType)
-        //         } catch (err) {
-        //             // console.error('Error:', JSON.stringify(err));
-        //             console.error('Error:', {
-        //     name: err.name,
-        //     message: err.message,
-        //     stack: err.stack,
-        // });
-        //             setError(err.message);
-        //         } finally {
-        //             setIsLoading(false);
-        //         }
-
+https://landrentals.azurewebsites.net/api/Authentications/CreateUser
         try {
-            // const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/Authentications/CreateUser`, ...)
-
-            // const response = await fetch('/api/Authentications/CreateUser', {
-const baseUrl = import.meta.env.PROD
-  ? 'https://landrentals.azurewebsites.net'
-  : '/api';
-
-// const response = await fetch(`${baseUrl}/Authentications/CreateUser`, {
 const response = await fetch(`https://landrentals.azurewebsites.net/api/Authentications/CreateUser`, {
             method: 'POST',
                 headers: {
@@ -227,9 +75,9 @@ const response = await fetch(`https://landrentals.azurewebsites.net/api/Authenti
 console.log("response")
 console.log(response)
             if (!response.ok) {
-                const text1 = await response.json() // fallback in case it's not JSON
-                console.error("Raw response error:", text1.message);
-                throw new Error(text1.message);
+                const text = await response.json() // fallback in case it's not JSON
+                console.error("Raw response error:", text.message);
+                throw new Error(text.message);
             }
 
             const data = await response.json();
